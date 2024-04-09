@@ -19,7 +19,7 @@ export default class BbsPlugin extends Plugin {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Bitcoin Blockheight Stamp', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Bitcoin Block Stamp', (evt: MouseEvent) => {
 			noteBlockHeight();
 			noteMoscowTime();
 		});
