@@ -10,7 +10,7 @@ import {
 	//Setting 
 } from 'obsidian';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from './src/settings';
-import { insertBlockHeight, insertMoscowTime, noteBlockHeight, noteMoscowTime } from './src/bbs';
+import { insertBlockHeight, insertMoscowTime, noteBlockHeight, noteMoscowTime } from './src/bitcoin-block-stamp';
 
 export default class BbsPlugin extends Plugin {
 	settings: BbsPluginSettings;
