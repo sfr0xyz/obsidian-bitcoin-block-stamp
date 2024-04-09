@@ -9,8 +9,9 @@ import {
 	//PluginSettingTab, 
 	//Setting 
 } from 'obsidian';
+import Bbs from './src/bitcoin-block-stamp';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from './src/settings';
-import { insertBlockHeight, insertMoscowTime, noteBlockHeight, noteMoscowTime } from './src/bitcoin-block-stamp';
+import { BbsModal } from './src/modals';
 
 export default class BbsPlugin extends Plugin {
 	settings: BbsPluginSettings;
@@ -20,8 +21,9 @@ export default class BbsPlugin extends Plugin {
 
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Bitcoin Block Stamp', (evt: MouseEvent) => {
-			noteBlockHeight();
-			noteMoscowTime();
+			//noteBlockHeight();
+			//noteMoscowTime();
+			new BbsModal(this.app, this).open();
 		});
 
 		// Perform additional things with the ribbon
@@ -31,7 +33,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-block-height',
 			name: 'Insert block height',
 			editorCallback: (editor: Editor) => {
-				insertBlockHeight(editor, this.settings.blockExplorer)
+				new Bbs(this, editor).insertCurrentBlockHeight();
 			}
 		});
 
@@ -39,7 +41,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-moscow-time',
 			name: 'Insert Moscow Time',
 			editorCallback: (editor: Editor) => {
-				insertMoscowTime(editor)
+				new Bbs(this, editor).insertMoscowTime();
 			}
 		});
 		
