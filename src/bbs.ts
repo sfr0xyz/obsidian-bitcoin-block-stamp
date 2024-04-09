@@ -4,7 +4,7 @@ import mempoolJS from '@mempool/mempool.js';
 export async function insertBlockHeight (editor: Editor, blockExplorer: string) {
 	const blockHeight = await getCurrentBlockHeight();
 
-	let blockHeightString = blockHeight.toString();
+	let blockHeightString: string; //blockHeight.toString();
 
 	switch (blockExplorer) {
 		case 'mempool_space': {
