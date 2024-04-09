@@ -48,11 +48,25 @@ export default class Bbs {
 	
 		this.editor.replaceSelection(blockHeightString);
 	}
+
+	async insertCurrentMoscowTime () {
+		const BTCPrices = await this.getCurrentPrices();
+		const BTCUSD = BTCPrices.USD;
+		const moscowTime = this.moscowTime(BTCUSD);
+
+		this.insertMoscowTime(moscowTime.toString());
+	}
+
+	async insertMoscowTimeAtTimestamp (unixTimestamp: string) {
+		const result = await this.getPriceAtTimestamp(unixTimestamp);
+		const BTCUSD = result.prices[0].USD;
+		const moscowTime = this.moscowTime(BTCUSD);
+
+		this.insertMoscowTime(moscowTime.toString());
+	}
 	
-	async insertMoscowTime () {
-		const moscowTime = await this.getCurrentMoscowTime();
-	
-		this.editor.replaceSelection(moscowTime.toString());
+	insertMoscowTime (moscowTime: string) {
+		this.editor.replaceSelection(moscowTime);
 	}
 
 	async getCurrentBlockHeight () {
@@ -71,12 +85,19 @@ export default class Bbs {
 	
 		return result.json();
 	}
+
+	async getPriceAtTimestamp (unixTimestamp: string, currency = 'USD') {
+		// `unixTimestamp` needs to be in UNIX format, e.g. 1712685519
+		const result = await fetch(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
+
+		return result.json();
+	}
+
+	moscowTime (BTCUSD: number) {
+		const BTCSATS = 100000000;
+		const USDSATS = Math.round(BTCSATS / BTCUSD);
 	
-	async getCurrentMoscowTime () {
-		const price = await this.getCurrentPrices();
-		const satsPerUSD = Math.round(100000000 / price.USD);
-	
-		return satsPerUSD;
+		return USDSATS;
 	}
 	
 	async getBlockHash (blockHeight: number) {

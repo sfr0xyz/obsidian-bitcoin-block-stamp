@@ -41,7 +41,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-moscow-time',
 			name: 'Insert Moscow Time',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertMoscowTime();
+				new Bbs(this, editor).insertCurrentMoscowTime();
 			}
 		});
 		
