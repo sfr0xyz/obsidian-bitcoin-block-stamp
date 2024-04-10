@@ -46,6 +46,14 @@ export default class BbsPlugin extends Plugin {
 		});
 
 		this.addCommand({
+			id: 'insert-current-moscow-time-at-block-height',
+			name: 'Insert current Moscow Time @ block height',
+			editorCallback: (editor: Editor) => {
+				new Bbs(this, editor).insertCurrentMoscowTimeAtBlockHeight();
+			}
+		});
+
+		this.addCommand({
 			id: 'insert-historical-block-stamp',
 			name: 'Insert historical block stamp',
 			editorCallback: () => {

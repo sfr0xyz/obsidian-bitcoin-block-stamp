@@ -46,6 +46,7 @@ export class BbsModal extends Modal {
             .addDropdown(dd => dd
                 .addOption('blockHeight', 'Block height')
                 .addOption('moscowTime', 'Moscow time')
+                .addOption('moscowTimeAtBlockHeight', 'Moscow time @ block height')
                 .setValue(this.stampType)
                 .onChange(value => {
                     this.stampType = value;
@@ -65,6 +66,10 @@ export class BbsModal extends Modal {
                             }
                             case 'moscowTime': {
                                 new Bbs(this.plugin, view.editor).insertHistoricalMoscowTime(this.unixTimestamp);
+                                break;
+                            }
+                            case 'moscowTimeAtBlockHeight': {
+                                new Bbs(this.plugin, view.editor).insertHistoricalMoscowTimeAtBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             default: {

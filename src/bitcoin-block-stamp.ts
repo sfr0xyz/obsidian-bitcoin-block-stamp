@@ -69,6 +69,30 @@ export default class Bbs {
 		this.editor.replaceSelection(moscowTime);
 	}
 
+	async insertCurrentMoscowTimeAtBlockHeight () {
+		const BTCPrices = await this.getCurrentPrices();
+		const BTCUSD = BTCPrices.USD;
+		const moscowTime = this.moscowTime(BTCUSD);
+
+		const blockHeight = await this.getCurrentBlockHeight();
+
+		this.insertMoscowTimeAtBlockHeight(moscowTime.toString(), blockHeight);
+	}
+
+	async insertHistoricalMoscowTimeAtBlockHeight (unixTimestamp: string) {
+		const result = await this.getPriceAtTimestamp(unixTimestamp);
+		const BTCUSD = result.prices[0].USD;
+		const moscowTime = this.moscowTime(BTCUSD);
+
+		const block = await this.getBlockFromTimestamp(unixTimestamp);
+
+		this.insertMoscowTimeAtBlockHeight(moscowTime.toString(), block.height);
+	}
+
+	insertMoscowTimeAtBlockHeight (moscowTime: string, blockHeight: number) {
+		this.editor.replaceSelection(`${moscowTime} @ ${blockHeight}`);
+	}
+
 	async getCurrentBlockHeight () {
 		const { bitcoin: { blocks } } = mempoolJS({
 			hostname: 'mempool.space',
