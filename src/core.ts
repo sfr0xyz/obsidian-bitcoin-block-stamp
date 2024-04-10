@@ -2,7 +2,7 @@ import { Editor } from 'obsidian';
 import BbsPlugin from '../main';
 import mempoolJS from '@mempool/mempool.js';
 
-export default class Bbs {
+export default class BbsCore {
 	plugin: BbsPlugin
 	editor: Editor
 

@@ -1,6 +1,6 @@
 import { App, Modal, Setting, Editor, MarkdownView, moment, Notice } from 'obsidian';
 import BbsPlugin from '../main';
-import Bbs from './bitcoin-block-stamp';
+import BbsCore from './core';
 
 
 export class BbsModal extends Modal {
@@ -61,15 +61,15 @@ export class BbsModal extends Modal {
                     if (view) {
                         switch (this.stampType) {
                             case 'blockHeight': {
-                                new Bbs(this.plugin, view.editor).insertBlockHeight(this.unixTimestamp);
+                                new BbsCore(this.plugin, view.editor).insertBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             case 'moscowTime': {
-                                new Bbs(this.plugin, view.editor).insertMoscowTime(this.unixTimestamp);
+                                new BbsCore(this.plugin, view.editor).insertMoscowTime(this.unixTimestamp);
                                 break;
                             }
                             case 'moscowTimeAtBlockHeight': {
-                                new Bbs(this.plugin, view.editor).insertMoscowTimeAtBlockHeight(this.unixTimestamp);
+                                new BbsCore(this.plugin, view.editor).insertMoscowTimeAtBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             default: {

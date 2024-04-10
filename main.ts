@@ -9,7 +9,7 @@ import {
 	//PluginSettingTab, 
 	//Setting 
 } from 'obsidian';
-import Bbs from './src/bitcoin-block-stamp';
+import BbsCore from './src/core';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from './src/settings';
 import { BbsModal } from './src/modals';
 
@@ -33,7 +33,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-block-height',
 			name: 'Insert current block height',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertBlockHeight();
+				new BbsCore(this, editor).insertBlockHeight();
 			}
 		});
 
@@ -41,7 +41,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-moscow-time',
 			name: 'Insert current Moscow Time',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertMoscowTime();
+				new BbsCore(this, editor).insertMoscowTime();
 			}
 		});
 
@@ -49,7 +49,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-moscow-time-at-block-height',
 			name: 'Insert current Moscow Time @ block height',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertMoscowTimeAtBlockHeight();
+				new BbsCore(this, editor).insertMoscowTimeAtBlockHeight();
 			}
 		});
 
