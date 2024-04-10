@@ -30,16 +30,16 @@ export default class BbsPlugin extends Plugin {
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 
 		this.addCommand({
-			id: 'insert-block-height',
-			name: 'Insert block height',
+			id: 'insert-current-block-height',
+			name: 'Insert current block height',
 			editorCallback: (editor: Editor) => {
 				new Bbs(this, editor).insertCurrentBlockHeight();
 			}
 		});
 
 		this.addCommand({
-			id: 'insert-moscow-time',
-			name: 'Insert Moscow Time',
+			id: 'insert-current-moscow-time',
+			name: 'Insert current Moscow Time',
 			editorCallback: (editor: Editor) => {
 				new Bbs(this, editor).insertCurrentMoscowTime();
 			}
