@@ -11,22 +11,19 @@ export default class Bbs {
 		this.editor = editor;
 	}
 
-	async insertCurrentBlockHeight () {
-		const blockHeight = await this.getCurrentBlockHeight();
-		this.insertBlockHeight(blockHeight);
+	async insertBlockHeight (unixTimestamp?: string) {
+		const blockParams = await this.getBlock(unixTimestamp);
+		const blockHeightString = await this.blockHeightString(...blockParams);
+		
+		this.editor.replaceSelection(blockHeightString);
 	}
 
-	async insertHistoricalBlockHeight (unixTimestamp: string) {
-		const block = await this.getBlockFromTimestamp(unixTimestamp);
-		this.insertBlockHeight(block.height, block.hash);
-	}
-
-	async insertBlockHeight (blockHeight: number, blockHash = '_EMPTY_') {	
+	private async blockHeightString (blockHeight: number, blockHash?: string) {	
 		let blockHeightString: string;
 	
 		switch (this.plugin.settings.blockExplorer) {
 			case 'mempool_space': {
-				if (blockHash === '_EMPTY_') {
+				if (typeof blockHash === 'undefined') {
 					blockHash = await this.getBlockHash(blockHeight);
 				}
 				blockHeightString = `[${blockHeight}](https://mempool.space/block/${blockHash})`;	
@@ -46,101 +43,76 @@ export default class Bbs {
 			}
 		}
 	
-		this.editor.replaceSelection(blockHeightString);
+		return blockHeightString;
 	}
 
-	async insertCurrentMoscowTime () {
-		const BTCPrices = await this.getCurrentPrices();
-		const BTCUSD = BTCPrices.USD;
-		const moscowTime = this.moscowTime(BTCUSD);
+	async insertMoscowTime (unixTimestamp?: string) {
+		const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
+		const moscowTimeString = this.moscowTimeString(BTCUSD);
 
-		this.insertMoscowTime(moscowTime.toString());
+		this.editor.replaceSelection(moscowTimeString);
 	}
 
-	async insertHistoricalMoscowTime (unixTimestamp: string) {
-		const result = await this.getPriceAtTimestamp(unixTimestamp);
-		const BTCUSD = result.prices[0].USD;
-		const moscowTime = this.moscowTime(BTCUSD);
-
-		this.insertMoscowTime(moscowTime.toString());
-	}
-	
-	insertMoscowTime (moscowTime: string) {
-		this.editor.replaceSelection(moscowTime);
-	}
-
-	async insertCurrentMoscowTimeAtBlockHeight () {
-		const BTCPrices = await this.getCurrentPrices();
-		const BTCUSD = BTCPrices.USD;
-		const moscowTime = this.moscowTime(BTCUSD);
-
-		const blockHeight = await this.getCurrentBlockHeight();
-
-		this.insertMoscowTimeAtBlockHeight(moscowTime.toString(), blockHeight);
-	}
-
-	async insertHistoricalMoscowTimeAtBlockHeight (unixTimestamp: string) {
-		const result = await this.getPriceAtTimestamp(unixTimestamp);
-		const BTCUSD = result.prices[0].USD;
-		const moscowTime = this.moscowTime(BTCUSD);
-
-		const block = await this.getBlockFromTimestamp(unixTimestamp);
-
-		this.insertMoscowTimeAtBlockHeight(moscowTime.toString(), block.height);
-	}
-
-	insertMoscowTimeAtBlockHeight (moscowTime: string, blockHeight: number) {
-		this.editor.replaceSelection(`${moscowTime} @ ${blockHeight}`);
-	}
-
-	async getCurrentBlockHeight () {
-		const { bitcoin: { blocks } } = mempoolJS({
-			hostname: 'mempool.space',
-			network: 'mainnet'
-		});
-	
-		const blocksTipHeight = await blocks.getBlocksTipHeight();
-	
-		return blocksTipHeight;
-	}
-	
-	async getCurrentPrices () {
-		const result = await fetch('https://mempool.space/api/v1/prices');
-	
-		return result.json();
-	}
-
-	async getPriceAtTimestamp (unixTimestamp: string, currency = 'USD') {
-		// `unixTimestamp` needs to be in UNIX format, e.g. 1712685519
-		const result = await fetch(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
-
-		return result.json();
-	}
-
-	moscowTime (BTCUSD: number) {
+	private moscowTime (BTCUSD: number) {
 		const BTCSATS = 100000000;
 		const USDSATS = Math.round(BTCSATS / BTCUSD);
 	
 		return USDSATS;
 	}
+
+	private moscowTimeString (BTCUSD: number) {
+		const moscowTime = this.moscowTime(BTCUSD);
+		return moscowTime.toString();
+	}
+
+	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string) {
+		const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
+		const blockParams = await this.getBlock(unixTimestamp);
+		
+		const moscowTimeString = this.moscowTimeString(BTCUSD);
+
+		const blockHeightString = await this.blockHeightString(...blockParams);
+
+		this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
+	}
 	
-	async getBlockHash (blockHeight: number) {
-		const { bitcoin: { blocks } } = mempoolJS({
-			hostname: 'mempool.space',
-			network: 'mainnet'
-		});
+	private async getBitcoinPrice (unixTimestamp?: string, currency = 'USD') {
+		let btcPrice: number;
+		if (typeof unixTimestamp !== 'undefined') {
+			const response = await fetch(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
+			const json = await response.json();
+			btcPrice = await json.prices[0][currency];
+		} else {
+			const response = await fetch('https://mempool.space/api/v1/prices');
+			const json = await response.json();
+			btcPrice = await json[currency];
+		}
+
+		return btcPrice;
+	}
 	
+	private async getBlock (unixTimestamp?: string) {
+		let blockParams: [height: number, hash?: string];
+
+		if (typeof unixTimestamp !== 'undefined') {
+			const response = await fetch(`https://mempool.space/api/v1/mining/blocks/timestamp/${unixTimestamp}`);
+			const json = await response.json();
+			blockParams = [json.height, json.hash];
+		} else {
+			const { bitcoin: { blocks } } = mempoolJS({hostname: 'mempool.space', network: 'mainnet'});
+			const blocksTipHeight = await blocks.getBlocksTipHeight();
+			blockParams = [blocksTipHeight];
+		}
+
+		return blockParams;
+	}
+
+	private async getBlockHash (blockHeight: number) {
+		const { bitcoin: { blocks } } = mempoolJS({hostname: 'mempool.space', network: 'mainnet'});
 		const blockHash = await blocks.getBlockHeight({ height: blockHeight });
 	
-		return blockHash;	
-	}
-	
-	async getBlockFromTimestamp (unixTimestamp: string) {
-		// `unixTimestamp` needs to be in UNIX format, e.g. 1712685519
-		const result = await fetch(`https://mempool.space/api/v1/mining/blocks/timestamp/${unixTimestamp}`);
-	
-		return result.json();
-	}
+		return blockHash;
+	}	
 }
 
 /** 

@@ -33,7 +33,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-block-height',
 			name: 'Insert current block height',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertCurrentBlockHeight();
+				new Bbs(this, editor).insertBlockHeight();
 			}
 		});
 
@@ -41,7 +41,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-moscow-time',
 			name: 'Insert current Moscow Time',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertCurrentMoscowTime();
+				new Bbs(this, editor).insertMoscowTime();
 			}
 		});
 
@@ -49,7 +49,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-current-moscow-time-at-block-height',
 			name: 'Insert current Moscow Time @ block height',
 			editorCallback: (editor: Editor) => {
-				new Bbs(this, editor).insertCurrentMoscowTimeAtBlockHeight();
+				new Bbs(this, editor).insertMoscowTimeAtBlockHeight();
 			}
 		});
 

@@ -3,11 +3,13 @@ import { App, PluginSettingTab, Setting } from 'obsidian';
 
 export interface BbsPluginSettings {
 	blockExplorer: '_NONE_' | 'mempool_space' | 'blockstream_info' | 'timechaincalendar_com';
+	blockHeightFormat: string;
 	moscowTimeFormat: string;
 }
 
 export const DEFAULT_SETTINGS: BbsPluginSettings = {
 	blockExplorer: '_NONE_',
+	blockHeightFormat: '',
 	moscowTimeFormat: ''
 }
 

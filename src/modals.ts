@@ -61,15 +61,15 @@ export class BbsModal extends Modal {
                     if (view) {
                         switch (this.stampType) {
                             case 'blockHeight': {
-                                new Bbs(this.plugin, view.editor).insertHistoricalBlockHeight(this.unixTimestamp);
+                                new Bbs(this.plugin, view.editor).insertBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             case 'moscowTime': {
-                                new Bbs(this.plugin, view.editor).insertHistoricalMoscowTime(this.unixTimestamp);
+                                new Bbs(this.plugin, view.editor).insertMoscowTime(this.unixTimestamp);
                                 break;
                             }
                             case 'moscowTimeAtBlockHeight': {
-                                new Bbs(this.plugin, view.editor).insertHistoricalMoscowTimeAtBlockHeight(this.unixTimestamp);
+                                new Bbs(this.plugin, view.editor).insertMoscowTimeAtBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             default: {
