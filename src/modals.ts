@@ -16,27 +16,33 @@ export class BbsModal extends Modal {
 
     onOpen() {
         const { contentEl } = this;
-        const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
-        contentEl.createEl('h2', {text: 'Bitcoin Block Stamp'});
+        const datetimeInputFormat = 'YYYY-MM-DD HH:mm:ss';
+        const datetimeOutputFormat = 'D MMM YYYY, h:mm:ss a [UTC]ZZ';
+        const currentDatetime = moment().format(datetimeInputFormat);
+        this.unixTimestamp = moment(currentDatetime, datetimeInputFormat).format('X');
+
+        contentEl.createEl('h2', {text: 'Historical Bitcoin Block Stamp'});
+        contentEl.createEl('p', {text: 'This is a paragraph'})
         
         new Setting(contentEl)
-            .setName('Date and time')
-            .setDesc('Date & time for which the closest block is stamped')
+            .setName('Date & Time')
+            .setDesc(`Date and time for which the closest block is stamped. Format: ${datetimeInputFormat}`)
             .addText(text => text
-                .setPlaceholder('YYYY-MM-DD HH:mm:ss')
-                .setValue(currentTime)
+                .setPlaceholder(datetimeInputFormat)
+                .setValue(currentDatetime)
                 .onChange(value => {
-                    this.unixTimestamp = moment(value).format('X');
-                    
-                    resp.textContent = moment(this.unixTimestamp, 'X').format('DD MMM YYYY [at] HH:mm:ss [UTC]ZZ');
+                    this.unixTimestamp = moment(value, datetimeInputFormat).format('X');
+                    datetimeOutput.innerHTML = moment(this.unixTimestamp, 'X').format(datetimeOutputFormat);
                 })
             )
         
-        const resp = contentEl.createEl('span');
-        resp.textContent = moment(currentTime, 'YYYY-MM-DD HH:mm:ss').format('DD MMM YYYY [at] HH:mm:ss [UTC]ZZ');
+        const datetimeOutput = contentEl.createEl('div');
+        datetimeOutput.setAttr('align', 'right');
+        datetimeOutput.innerHTML = moment(currentDatetime, datetimeInputFormat).format(datetimeOutputFormat);
 
         new Setting(contentEl)
+            .setName('Stamp Type')
             .addDropdown(dd => dd
                 .addOption('blockHeight', 'Block height')
                 .addOption('moscowTime', 'Moscow time')
@@ -54,11 +60,11 @@ export class BbsModal extends Modal {
                     if (view) {
                         switch (this.stampType) {
                             case 'blockHeight': {
-                                new Bbs(this.plugin, view.editor).insertBlockHeightAtTimestamp(this.unixTimestamp);
+                                new Bbs(this.plugin, view.editor).insertHistoricalBlockHeight(this.unixTimestamp);
                                 break;
                             }
                             case 'moscowTime': {
-                                new Bbs(this.plugin, view.editor).insertMoscowTimeAtTimestamp(this.unixTimestamp);
+                                new Bbs(this.plugin, view.editor).insertHistoricalMoscowTime(this.unixTimestamp);
                                 break;
                             }
                             default: {

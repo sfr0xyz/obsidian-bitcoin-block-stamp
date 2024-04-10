@@ -16,7 +16,7 @@ export default class Bbs {
 		this.insertBlockHeight(blockHeight);
 	}
 
-	async insertBlockHeightAtTimestamp (unixTimestamp: string) {
+	async insertHistoricalBlockHeight (unixTimestamp: string) {
 		const block = await this.getBlockFromTimestamp(unixTimestamp);
 		this.insertBlockHeight(block.height, block.hash);
 	}
@@ -57,7 +57,7 @@ export default class Bbs {
 		this.insertMoscowTime(moscowTime.toString());
 	}
 
-	async insertMoscowTimeAtTimestamp (unixTimestamp: string) {
+	async insertHistoricalMoscowTime (unixTimestamp: string) {
 		const result = await this.getPriceAtTimestamp(unixTimestamp);
 		const BTCUSD = result.prices[0].USD;
 		const moscowTime = this.moscowTime(BTCUSD);
