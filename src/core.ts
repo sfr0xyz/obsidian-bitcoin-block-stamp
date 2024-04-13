@@ -1,4 +1,4 @@
-import { Editor } from 'obsidian';
+import { Editor, Notice } from 'obsidian';
 import BbsPlugin from '../main';
 import mempoolJS from '@mempool/mempool.js';
 
@@ -12,10 +12,40 @@ export default class BbsCore {
 	}
 
 	async insertBlockHeight (unixTimestamp?: string) {
-		const blockParams = await this.getBlock(unixTimestamp);
-		const blockHeightString = await this.blockHeightString(...blockParams);
-		
-		this.editor.replaceSelection(blockHeightString);
+		try {
+			const blockParams = await this.getBlock(unixTimestamp);
+			const blockHeightString = await this.blockHeightString(...blockParams);
+			
+			this.editor.replaceSelection(blockHeightString);
+		} catch (error) {
+			new Notice(`An error occurred:\n${error.message}`);
+		}
+	}
+
+	async insertMoscowTime (unixTimestamp?: string) {
+		try {
+			const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
+			const moscowTimeString = this.moscowTimeString(BTCUSD);
+
+			this.editor.replaceSelection(moscowTimeString);
+		} catch (error) {
+			new Notice(`An error occurred:\n${error.message}`);
+		}
+	}
+
+	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string) {
+		try {
+			const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
+			const blockParams = await this.getBlock(unixTimestamp);
+			
+			const moscowTimeString = this.moscowTimeString(BTCUSD);
+
+			const blockHeightString = await this.blockHeightString(...blockParams);
+
+			this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
+		} catch (error) {
+			new Notice(`An error occurred:\n${error.message}`);
+		}
 	}
 
 	private async blockHeightString (blockHeight: number, blockHash?: string) {	
@@ -46,13 +76,6 @@ export default class BbsCore {
 		return blockHeightString;
 	}
 
-	async insertMoscowTime (unixTimestamp?: string) {
-		const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
-		const moscowTimeString = this.moscowTimeString(BTCUSD);
-
-		this.editor.replaceSelection(moscowTimeString);
-	}
-
 	private moscowTime (BTCUSD: number) {
 		const BTCSATS = 100000000;
 		const USDSATS = Math.round(BTCSATS / BTCUSD);
@@ -64,26 +87,24 @@ export default class BbsCore {
 		const moscowTime = this.moscowTime(BTCUSD);
 		return moscowTime.toString();
 	}
-
-	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string) {
-		const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
-		const blockParams = await this.getBlock(unixTimestamp);
-		
-		const moscowTimeString = this.moscowTimeString(BTCUSD);
-
-		const blockHeightString = await this.blockHeightString(...blockParams);
-
-		this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
-	}
 	
 	private async getBitcoinPrice (unixTimestamp?: string, currency = 'USD') {
 		let btcPrice: number;
+
 		if (typeof unixTimestamp !== 'undefined') {
+			if (!isValidUnixTimestamp(unixTimestamp)[0]) { throw new Error(`Invalid timestamp: ${unixTimestamp}`) }
+
 			const response = await fetch(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
+
+			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
+
 			const json = await response.json();
 			btcPrice = await json.prices[0][currency];
 		} else {
 			const response = await fetch('https://mempool.space/api/v1/prices');
+
+			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
+
 			const json = await response.json();
 			btcPrice = await json[currency];
 		}
@@ -95,7 +116,12 @@ export default class BbsCore {
 		let blockParams: [height: number, hash?: string];
 
 		if (typeof unixTimestamp !== 'undefined') {
+			if (!isValidUnixTimestamp(unixTimestamp)[0]) { throw new Error(`Invalid timestamp: ${unixTimestamp}`) }
+
 			const response = await fetch(`https://mempool.space/api/v1/mining/blocks/timestamp/${unixTimestamp}`);
+			
+			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
+			
 			const json = await response.json();
 			blockParams = [json.height, json.hash];
 		} else {
@@ -112,19 +138,20 @@ export default class BbsCore {
 		const blockHash = await blocks.getBlockHeight({ height: blockHeight });
 	
 		return blockHash;
-	}	
+	}
 }
 
-/** 
-export async function noteBlockHeight () {
-	const blockheight = await getCurrentBlockHeight();
-
-	new Notice('Block Height: ' + blockheight);
+function isValidUnixTimestamp (unixTimestamp: string) {
+	const genesisBlockTimestamp = '1231006505';
+	let isValid = true;
+	let problemMessage = '';
+	if (unixTimestamp.length !== 10) {
+		problemMessage = 'Invalid date';
+		isValid = false;
+	}
+	if (unixTimestamp < genesisBlockTimestamp) {
+		problemMessage = 'Date lies before Genesis block';
+		isValid = false;
+	}
+	return [isValid, problemMessage];
 }
-
-export async function noteMoscowTime () {
-	const moscowTime = await getCurrentMoscowTime();
-
-	new Notice('Moscow Time: ' + moscowTime.toString());
-}
-*/

@@ -2,7 +2,6 @@ import { App, Modal, Setting, Editor, MarkdownView, moment, Notice } from 'obsid
 import BbsPlugin from '../main';
 import BbsCore from './core';
 
-
 export class BbsModal extends Modal {
     unixTimestamp: string;
     plugin: BbsPlugin;
@@ -18,12 +17,12 @@ export class BbsModal extends Modal {
         const { contentEl } = this;
 
         const datetimeInputFormat = 'YYYY-MM-DD HH:mm:ss';
-        const datetimeOutputFormat = 'D MMM YYYY, h:mm:ss a [UTC]ZZ';
+        const datetimeOutputFormat = 'D MMM YYYY, H:mm:ss [UTC]ZZ';
         const currentDatetime = moment().format(datetimeInputFormat);
         this.unixTimestamp = moment(currentDatetime, datetimeInputFormat).format('X');
 
         contentEl.createEl('h2', {text: 'Historical Bitcoin Block Stamp'});
-        contentEl.createEl('p', {text: 'This is a paragraph'})
+        //contentEl.createEl('p', {text: 'This is a paragraph'})
         
         new Setting(contentEl)
             .setName('Date & Time')
@@ -32,8 +31,16 @@ export class BbsModal extends Modal {
                 .setPlaceholder(datetimeInputFormat)
                 .setValue(currentDatetime)
                 .onChange(value => {
-                    this.unixTimestamp = moment(value, datetimeInputFormat).format('X');
-                    datetimeOutput.innerHTML = moment(this.unixTimestamp, 'X').format(datetimeOutputFormat);
+                    this.unixTimestamp = moment(value, datetimeInputFormat).format('X')
+                    const [isValidInput, problemMessage] = isValidDatetimeInput(this.unixTimestamp, datetimeOutputFormat);
+
+                    if (!isValidInput) {
+                        datetimeOutput.style.color = 'red';
+                        datetimeOutput.innerHTML = `${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}<br>Invalid date: ${problemMessage}`;
+                    } else {
+                        datetimeOutput.style.color = '';
+                        datetimeOutput.innerHTML = moment(this.unixTimestamp, 'X').format(datetimeOutputFormat);
+                    }
                 })
             )
         
@@ -57,8 +64,8 @@ export class BbsModal extends Modal {
                 .setCta()
                 .onClick(() => {                    
                     const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-                    
-                    if (view) {
+                    const [isValidDatetime, problemMessage] = isValidDatetimeInput(this.unixTimestamp)
+                    if (view && isValidDatetime) {
                         switch (this.stampType) {
                             case 'blockHeight': {
                                 new BbsCore(this.plugin, view.editor).insertBlockHeight(this.unixTimestamp);
@@ -77,6 +84,12 @@ export class BbsModal extends Modal {
                                 break;
                             }
                         }
+                    } else {
+                        if (problemMessage) {
+                            new Notice(`Couldn't add stamp: Invalid date: ${problemMessage}`);
+                        } else {
+                            new Notice(`Couldn't add stamp: Not in editor view`);
+                        }
                     }
                     
                     this.close();
@@ -88,4 +101,19 @@ export class BbsModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
     }
+}
+
+function isValidDatetimeInput (unixTimestamp: string, datetimeOutputFormat = 'YYYY-MM-DD HH:mm:ss [UTC]ZZ') {
+    const genesisBlockTimestamp = '1231006505';
+    let isValid = true;
+    let problemMessage = '';
+    if (unixTimestamp < genesisBlockTimestamp) {
+        isValid = false;
+        problemMessage = `Date lies before the Genesis block (${moment(genesisBlockTimestamp, 'X').format(datetimeOutputFormat)})`;
+    }
+    if (unixTimestamp.length !== 10) {
+        isValid = false;
+        problemMessage = `Not a date`;
+    }
+    return [isValid, problemMessage];
 }
