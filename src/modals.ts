@@ -35,8 +35,8 @@ export class BbsModal extends Modal {
                     const [isValidInput, problemMessage] = isValidDatetimeInput(this.unixTimestamp, datetimeOutputFormat);
 
                     if (!isValidInput) {
-                        datetimeOutput.style.color = 'red';
-                        datetimeOutput.innerHTML = `${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}<br>Invalid date: ${problemMessage}`;
+                        datetimeOutput.style.color = '#c73e1d';
+                        datetimeOutput.innerHTML = `${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}<br>Invalid input: ${problemMessage}`;
                     } else {
                         datetimeOutput.style.color = '';
                         datetimeOutput.innerHTML = moment(this.unixTimestamp, 'X').format(datetimeOutputFormat);
@@ -110,6 +110,10 @@ function isValidDatetimeInput (unixTimestamp: string, datetimeOutputFormat = 'YY
     if (unixTimestamp < genesisBlockTimestamp) {
         isValid = false;
         problemMessage = `Date lies before the Genesis block (${moment(genesisBlockTimestamp, 'X').format(datetimeOutputFormat)})`;
+    }
+    if (unixTimestamp > moment().format('X')) {
+        isValid = false;
+        problemMessage = `Date lies in the future`;
     }
     if (unixTimestamp.length !== 10) {
         isValid = false;
