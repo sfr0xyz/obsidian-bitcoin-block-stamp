@@ -1,14 +1,4 @@
-import { 
-	//App, 
-	Editor, 
-	//Notice, 
-	//MarkdownView, 
-	//Modal, 
-	//Notice, 
-	Plugin, 
-	//PluginSettingTab, 
-	//Setting 
-} from 'obsidian';
+import { Editor, Plugin } from 'obsidian';
 import BbsCore from './src/core';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from './src/settings';
 import { BbsModal } from './src/modals';
@@ -21,8 +11,6 @@ export default class BbsPlugin extends Plugin {
 
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Historical Bitcoin Block Stamp', (evt: MouseEvent) => {
-			//noteBlockHeight();
-			//noteMoscowTime();
 			new BbsModal(this.app, this).open();
 		});
 

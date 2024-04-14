@@ -13,7 +13,7 @@ export default class BbsCore {
 
 	async insertBlockHeight (unixTimestamp?: string) {
 		try {
-			const blockParams = await this.getBlock(unixTimestamp);
+			const blockParams = await this.getBlockHeight(unixTimestamp);
 			const blockHeightString = await this.blockHeightString(...blockParams);
 			
 			this.editor.replaceSelection(blockHeightString);
@@ -36,10 +36,9 @@ export default class BbsCore {
 	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string) {
 		try {
 			const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
-			const blockParams = await this.getBlock(unixTimestamp);
+			const blockParams = await this.getBlockHeight(unixTimestamp);
 			
 			const moscowTimeString = this.moscowTimeString(BTCUSD);
-
 			const blockHeightString = await this.blockHeightString(...blockParams);
 
 			this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
@@ -112,7 +111,7 @@ export default class BbsCore {
 		return btcPrice;
 	}
 	
-	private async getBlock (unixTimestamp?: string) {
+	private async getBlockHeight (unixTimestamp?: string) {
 		let blockParams: [height: number, hash?: string];
 
 		if (typeof unixTimestamp !== 'undefined') {

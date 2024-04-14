@@ -22,7 +22,6 @@ export class BbsModal extends Modal {
         this.unixTimestamp = moment(currentDatetime, datetimeInputFormat).format('X');
 
         contentEl.createEl('h2', {text: 'Historical Bitcoin Block Stamp'});
-        //contentEl.createEl('p', {text: 'This is a paragraph'})
         
         new Setting(contentEl)
             .setName('Date & Time')
