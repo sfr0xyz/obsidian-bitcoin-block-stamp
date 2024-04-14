@@ -19,7 +19,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-current-block-height',
-			name: 'Insert current block height',
+			name: 'Insert current Block Height',
 			editorCallback: (editor: Editor) => {
 				new BbsCore(this, editor).insertBlockHeight();
 			}
@@ -35,7 +35,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-current-moscow-time-at-block-height',
-			name: 'Insert current Moscow Time @ block height',
+			name: 'Insert current Moscow Time @ Block Height',
 			editorCallback: (editor: Editor) => {
 				new BbsCore(this, editor).insertMoscowTimeAtBlockHeight();
 			}
