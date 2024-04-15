@@ -2,24 +2,29 @@
 
 Stamp your document with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
 
+## Features
+
+- Insert the current or a historical _block height_.
+- Insert the current or historical _Moscow time_[^mt].
+- Insert the current or historical _Moscow time @ block height_, the format from the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta).
+- Add a link to your preferred block explorer for the block height.
+
+[^mt]: Moscow time = sats / USD
+
 ## Usage
 
 After you installed and enabled the plugin, you should see a Bitcoin icon in the ribbon bar.
 
-- The ribbon icon opens a window which lets you add a stamp for any historical point in time or the current time. Make sure you are in the editor mode to be able to insert the stamp.
-- Enter the date and time you wish the closest block height / Moscow time for.
-- Select the stamp type "Block height" / "Moscow time" / "Moscow time @ block height".
-- Click "Stamp" to insert the stamp at your current curser position.
-- Likewise you can open this window via the command view `Ctrl + P` and searching for _"Bitcoin Block Stamp: Insert historical block stamp"_.
-  - There you can also quick add the current "Block height", "Moscow time", or "Moscow time @ block height".
+- Clicking the  ribbon icon opens a window which lets you add a stamp for any historical point in time or the current time. Make sure you are in the editor mode to be able to insert the stamp.
+  - Enter the date and time you wish the closest block height or Moscow time for.
+  - Select the stamp type (Block height / Moscow time / Moscow time @ block height).
+  - Click "Stamp" to insert the stamp at your current curser position.
+- Likewise you can open this window via the command view `Ctrl + P`. Search for "Bitcoin Block Stamp: Insert historical block stamp".
+- In the command view `Ctrl + P` you can also quick add the current _Block height_ / _Moscow time_ / _Moscow time @ block height_. Search for "Bitcoin Block Stamp".
 
 ## Settings
 
-In the plugin settings you can select a block explorer.
-
-If you choose "None" the block height will be inserted as a simple text.
-
-If you choose one of the three block explorers, the block height text will be inserted as a Markdown link linking to the block height's block in the selected block explorer.
+- **Block Explorer**: You can choose your preferred block explorer. The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer.
 
 ## Installation
 
@@ -27,21 +32,21 @@ If you choose one of the three block explorers, the block height text will be in
 
 Go to `Settings > Community plugins > "Browse" community plugins`, and search for "Bitcoin Block Stamp".
 
-Click "Install" and as soon as it's installed hit "Enable".
+Click "Install" and when it was successfully install hit "Enable".
 
 You should now see "Bitcoin Block Stamp" under "Community plugins" in your Settings view.
 
 ### Manually
 
-Go to [Releases](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases) and download the release files .
+Go to [Releases](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases) and download the release files.
 
-Head over to the plugins sections in your vault folder `VaultFolder/.obsidian/plugins/`.
+Head over to the plugins section in your vault folder `VaultFolder/.obsidian/plugins/`.
 
 Create a new folder called "obsidian-bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
 
 You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/obsidian-bitcoin-block-stamp/`.
 
-Then head into your Obsidian and enable the plugin under `Settings > Community plugins > Installed plugins > Toggle "Bitcoin Block Stamp"`.
+Head into your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
 
 ## Support Me
 
@@ -50,5 +55,9 @@ You can support me with Bitcoin via the Lightning Network.
 My Lightning Address:
 
 ```txt
-sefiro@getably.com
+sefiro@getalby.com
 ```
+
+<div align="center">
+  <a href="https://getalby.com/p/sefiro"><img src="https://framerusercontent.com/images/ne7w7969praOzHjI8qQthR3eI.png?scale-down-to=128" alt="Alby Page for sefiro" style="background-color: #FFDF6F; border-radius: 15px; padding: 0px 10px;"></a>
+</div>
