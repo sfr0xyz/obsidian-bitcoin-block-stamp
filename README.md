@@ -2,10 +2,12 @@
 
 Stamp your document with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
 
+![BBS Demo](./docs/bbs-demo.png)
+
 ## Features
 
-- Insert the current or a historical _block height_.
-- Insert the current or historical _Moscow time_[^mt].
+- Insert the current or historical _block height_.
+- Insert the current or historical _Moscow time_.[^mt]
 - Insert the current or historical _Moscow time @ block height_, the format from the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta).
 - Add a link to your preferred block explorer for the block height.
 
@@ -50,14 +52,18 @@ Head into your Obsidian vault and enable the plugin by toggling "Bitcoin Block S
 
 ## Support Me
 
-You can support me with Bitcoin via the Lightning Network.
+If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Visit my [Alby page](https://getalby.com/p/sefiro).
 
-My Lightning Address:
+Lightning Address:
 
 ```txt
 sefiro@getalby.com
 ```
 
+Thank you!
+
+---
+
 <div align="center">
-  <a href="https://getalby.com/p/sefiro"><img src="https://framerusercontent.com/images/ne7w7969praOzHjI8qQthR3eI.png?scale-down-to=128" alt="Alby Page for sefiro" style="background-color: #FFDF6F; border-radius: 15px; padding: 0px 10px;"></a>
+Find me on Nostr <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp">@sefiro</a>
 </div>
