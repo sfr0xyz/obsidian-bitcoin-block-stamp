@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-bitcoin-block-stamp",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"description": "Stamp your document with the current Bitcoin block height.",
 	"main": "main.js",
 	"scripts": {
