@@ -1,5 +1,7 @@
 # Obsidian Bitcoin Block Stamp
 
+![GitHub manifest version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp) ![GitHub License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp)
+
 Stamp your notes with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
 
 ![BBS Demo](./docs/bbs-demo.png)
@@ -25,6 +27,10 @@ After you installed and enabled the plugin, you should see a Bitcoin icon in the
 ## Settings
 
 - **Block explorer**: You can choose your preferred block explorer. The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer.
+
+## Remarks
+
+The plugin uses the [mempool.space REST API](https://mempool.space/docs/api/rest) to get the Bitcoin blockchain data and the Bitcoin price data.
 
 ## Installation
 
