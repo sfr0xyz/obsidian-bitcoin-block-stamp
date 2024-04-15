@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-bitcoin-block-stamp",
 	"version": "1.0.0",
-	"description": "Stamp your document with the current Bitcoin block height.",
+	"description": "Stamp your notes with the current Bitcoin block.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
