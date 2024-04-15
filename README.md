@@ -7,11 +7,9 @@ Stamp your document with the Bitcoin block height and Moscow time. You can add t
 ## Features
 
 - Insert the current or historical _block height_.
-- Insert the current or historical _Moscow time_.[^mt]
-- Insert the current or historical _Moscow time @ block height_, the format from the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta).
+- Insert the current or historical [_Moscow time_](https://thebitcoinmanual.com/btc-culture/glossary/moscow-time/).
+- Insert the current or historical _Moscow time @ block height_, the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta) format.
 - Add a link to your preferred block explorer for the block height.
-
-[^mt]: Moscow time = sats / USD
 
 ## Usage
 
