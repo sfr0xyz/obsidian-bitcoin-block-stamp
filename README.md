@@ -1,6 +1,6 @@
 # Obsidian Bitcoin Block Stamp
 
-![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp)
+![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square)
 
 Stamp your notes with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
 
