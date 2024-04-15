@@ -24,7 +24,7 @@ After you installed and enabled the plugin, you should see a Bitcoin icon in the
 
 ## Settings
 
-- **Block Explorer**: You can choose your preferred block explorer. The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer.
+- **Block explorer**: You can choose your preferred block explorer. The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer.
 
 ## Installation
 

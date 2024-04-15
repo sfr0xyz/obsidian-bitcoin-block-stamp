@@ -27,7 +27,7 @@ export class BbsSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Block Explorer')
+			.setName('Block explorer')
 			.setDesc('Block explorer for block height links')
 			.addDropdown(dropdown => dropdown
                 .addOption('_NONE_', 'None')

@@ -22,9 +22,9 @@ export class BbsModal extends Modal {
         this.unixTimestamp = moment(currentDatetime, datetimeInputFormat).format('X');
 
         contentEl.createEl('h2', {text: 'Historical Bitcoin Block Stamp'});
-        
+
         new Setting(contentEl)
-            .setName('Date & Time')
+            .setName('Date & time')
             .setDesc(`Date and time for which the closest block is stamped. Format: ${datetimeInputFormat}`)
             .addText(text => text
                 .setPlaceholder(datetimeInputFormat)
@@ -34,21 +34,21 @@ export class BbsModal extends Modal {
                     const [isValidInput, problemMessage] = isValidDatetimeInput(this.unixTimestamp, datetimeOutputFormat);
 
                     if (!isValidInput) {
-                        datetimeOutput.style.color = '#c73e1d';
-                        datetimeOutput.innerHTML = `${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}<br>Invalid input: ${problemMessage}`;
+                        datetimeOutput.style.color = 'var(--text-error)';
+                        datetimeOutput.setText(`Invalid input (${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}): ${problemMessage}`);
                     } else {
-                        datetimeOutput.style.color = '';
-                        datetimeOutput.innerHTML = moment(this.unixTimestamp, 'X').format(datetimeOutputFormat);
+                        datetimeOutput.style.color = 'var(--text-normal)';
+                        datetimeOutput.setText(moment(this.unixTimestamp, 'X').format(datetimeOutputFormat));
                     }
                 })
             )
         
         const datetimeOutput = contentEl.createEl('div');
         datetimeOutput.setAttr('align', 'right');
-        datetimeOutput.innerHTML = moment(currentDatetime, datetimeInputFormat).format(datetimeOutputFormat);
+        datetimeOutput.setText(moment(currentDatetime, datetimeInputFormat).format(datetimeOutputFormat));
 
         new Setting(contentEl)
-            .setName('Stamp Type')
+            .setName('Stamp type')
             .addDropdown(dd => dd
                 .addOption('blockHeight', 'Block height')
                 .addOption('moscowTime', 'Moscow time')

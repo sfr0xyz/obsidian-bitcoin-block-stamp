@@ -10,7 +10,7 @@ export default class BbsPlugin extends Plugin {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Historical Bitcoin Block Stamp', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Historical Bitcoin block stamp', (evt: MouseEvent) => {
 			new BbsModal(this.app, this).open();
 		});
 
@@ -19,7 +19,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-current-block-height',
-			name: 'Insert current Block Height',
+			name: 'Insert current block height',
 			editorCallback: (editor: Editor) => {
 				new BbsCore(this, editor).insertBlockHeight();
 			}
@@ -27,7 +27,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-current-moscow-time',
-			name: 'Insert current Moscow Time',
+			name: 'Insert current Moscow time',
 			editorCallback: (editor: Editor) => {
 				new BbsCore(this, editor).insertMoscowTime();
 			}
@@ -35,7 +35,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-current-moscow-time-at-block-height',
-			name: 'Insert current Moscow Time @ Block Height',
+			name: 'Insert current Moscow time @ block height',
 			editorCallback: (editor: Editor) => {
 				new BbsCore(this, editor).insertMoscowTimeAtBlockHeight();
 			}
