@@ -33,18 +33,15 @@ export class BbsModal extends Modal {
                     this.unixTimestamp = moment(value, datetimeInputFormat).format('X')
                     const [isValidInput, problemMessage] = isValidDatetimeInput(this.unixTimestamp, datetimeOutputFormat);
 
-                    if (!isValidInput) {
-                        datetimeOutput.style.color = 'var(--text-error)';
-                        datetimeOutput.setText(`Invalid input (${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}): ${problemMessage}`);
-                    } else {
-                        datetimeOutput.style.color = 'var(--text-normal)';
-                        datetimeOutput.setText(moment(this.unixTimestamp, 'X').format(datetimeOutputFormat));
-                    }
+                    datetimeOutput.toggleClass('datetimeOutput-error', !isValidInput);
+                    datetimeOutput.setText( (!isValidInput)
+                        ? `Invalid input (${moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)}): ${problemMessage}`
+                        : moment(this.unixTimestamp, 'X').format(datetimeOutputFormat)
+                    );
                 })
             )
         
-        const datetimeOutput = contentEl.createEl('div');
-        datetimeOutput.setAttr('align', 'right');
+        const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });
         datetimeOutput.setText(moment(currentDatetime, datetimeInputFormat).format(datetimeOutputFormat));
 
         new Setting(contentEl)
