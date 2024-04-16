@@ -1,10 +1,12 @@
-# Obsidian Bitcoin Block Stamp
+# Bitcoin Block Stamp for Obsidian
 
 ![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square)
 
 Stamp your notes with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
 
-![BBS Demo](./docs/bbs-demo.png)
+<div align="center">
+  <img src="./docs/bbs-demo.png" alt="BBS Demo" width="90%">
+</div>
 
 ## Features
 
@@ -15,7 +17,7 @@ Stamp your notes with the Bitcoin block height and Moscow time. You can add the 
 
 ## Usage
 
-After you installed and enabled the plugin, you should see a Bitcoin icon in the sidebar.
+After you successfully [installed and enabled](#installation) the plugin, you should see a Bitcoin icon in the sidebar.
 
 - The icon opens a window which lets you add a stamp for any historical point in time or the current time. Make sure you are in the editor mode to be able to insert the stamp.
   - Enter the date and time you wish the closest block height or Moscow time for.
@@ -28,7 +30,7 @@ After you installed and enabled the plugin, you should see a Bitcoin icon in the
 
 - **Block explorer**: You can choose your preferred block explorer. The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer.
 
-## Remarks
+## Third-party sources
 
 The plugin uses the [mempool.space REST API](https://mempool.space/docs/api/rest) to get the Bitcoin blockchain data and the Bitcoin price data.
 
@@ -38,36 +40,36 @@ The plugin uses the [mempool.space REST API](https://mempool.space/docs/api/rest
 
 Go to `Settings > Community plugins > "Browse" community plugins`, and search for "Bitcoin Block Stamp".
 
-Select **Install** and when it was successfully installed select **Enable**.
+Select **Install** and after successful installation select **Enable**.
 
 You should now see "Bitcoin Block Stamp" under "Community plugins" in your Settings view.
 
 ### Manually
 
-Dowload the latest release files from [Releases](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest).
+Download the release files from the [latest release](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest).
 
 Go to the plugins section in your vault folder `VaultFolder/.obsidian/plugins/`.
 
-Create a new folder called "obsidian-bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
+Create a new folder called "bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
 
-You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/obsidian-bitcoin-block-stamp/`.
+You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/bitcoin-block-stamp/`.
 
 Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
 
-## Support Me
+## Support me
 
 If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Visit my [Alby page](https://getalby.com/p/sefiro).
 
 Lightning Address:
 
-```txt
+```txtNote: To allow specific HTML elements, use the allowed_elements parameter.
 sefiro@getalby.com
 ```
 
-Thank you!
+I appreciate your support, thank you!
 
 ---
 
 <div align="center">
-Find me on Nostr <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp">@sefiro</a>
+Find me on nostr <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp">@sefiro</a>
 </div>
