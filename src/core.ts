@@ -1,4 +1,4 @@
-import { Editor, Notice } from 'obsidian';
+import { Editor, Notice, requestUrl } from 'obsidian';
 import BbsPlugin from '../main';
 import mempoolJS from '@mempool/mempool.js';
 
@@ -93,18 +93,14 @@ export default class BbsCore {
 		if (typeof unixTimestamp !== 'undefined') {
 			if (!isValidUnixTimestamp(unixTimestamp)[0]) { throw new Error(`Invalid timestamp: ${unixTimestamp}`) }
 
-			const response = await fetch(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
+			const response = await requestUrl(`https://mempool.space/api/v1/historical-price?currency=${currency}&timestamp=${unixTimestamp}`);
+			const json = await response.json;
 
-			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
-
-			const json = await response.json();
 			btcPrice = await json.prices[0][currency];
 		} else {
-			const response = await fetch('https://mempool.space/api/v1/prices');
+			const response = await requestUrl('https://mempool.space/api/v1/prices');
+			const json = await response.json;
 
-			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
-
-			const json = await response.json();
 			btcPrice = await json[currency];
 		}
 
@@ -117,15 +113,14 @@ export default class BbsCore {
 		if (typeof unixTimestamp !== 'undefined') {
 			if (!isValidUnixTimestamp(unixTimestamp)[0]) { throw new Error(`Invalid timestamp: ${unixTimestamp}`) }
 
-			const response = await fetch(`https://mempool.space/api/v1/mining/blocks/timestamp/${unixTimestamp}`);
-			
-			if (!response.ok) { throw new Error(`Bad fetch response: ${response.status}`) }
-			
-			const json = await response.json();
+			const response = await requestUrl(`https://mempool.space/api/v1/mining/blocks/timestamp/${unixTimestamp}`);			
+			const json = await response.json;
+
 			blockParams = [json.height, json.hash];
 		} else {
 			const { bitcoin: { blocks } } = mempoolJS({hostname: 'mempool.space', network: 'mainnet'});
 			const blocksTipHeight = await blocks.getBlocksTipHeight();
+			
 			blockParams = [blocksTipHeight];
 		}
 
