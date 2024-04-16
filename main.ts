@@ -9,13 +9,9 @@ export default class BbsPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('bitcoin', 'Historical Bitcoin block stamp', (evt: MouseEvent) => {
+		this.addRibbonIcon('bitcoin', 'Historical Bitcoin block stamp', (evt: MouseEvent) => {
 			new BbsModal(this.app, this).open();
 		});
-
-		// Perform additional things with the ribbon
-		ribbonIconEl.addClass('my-plugin-ribbon-class');
 
 		this.addCommand({
 			id: 'insert-current-block-height',
