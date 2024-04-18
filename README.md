@@ -2,7 +2,7 @@
 
 ![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square)
 
-Stamp your notes with the Bitcoin block height and Moscow time. You can add the current stamp or the stamp for any time in the past up to the Genesis block.
+Stamp your notes with the Bitcoin block height and Moscow time. Add the latest stamp or the stamp for any time in the past up to the Genesis block.
 
 <div align="center">
   <img src="./docs/bbs-demo.png" alt="BBS Demo" width="90%">
@@ -32,29 +32,29 @@ After you successfully [installed and enabled](#installation) the plugin, you sh
 
 ## Third-party sources
 
-The plugin uses the [mempool.space REST API](https://mempool.space/docs/api/rest) to get the Bitcoin blockchain data and the Bitcoin price data.
+This plugin uses the [mempool.space REST API](https://mempool.space/docs/api/rest) to get the Bitcoin blockchain data and the Bitcoin price data.
 
 ## Installation
 
 ### In Obsidian
 
-Go to `Settings > Community plugins > "Browse" community plugins`, and search for "Bitcoin Block Stamp".
+1. Go to `Settings > Community plugins > "Browse" community plugins`, and search for "Bitcoin Block Stamp".
 
-Select **Install** and after successful installation select **Enable**.
+2. Select **Install** and after successful installation select **Enable**.
 
-You should now see "Bitcoin Block Stamp" under "Community plugins" in your Settings view.
+3. You should now see "Bitcoin Block Stamp" under "Community plugins" in your Settings view.
 
 ### Manually
 
-Download the release files from the [latest release](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest).
+1. Download the release files from the [latest release](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest).
 
-Go to the plugins section in your vault folder `VaultFolder/.obsidian/plugins/`.
+2. Go to the plugins section in your vault folder `VaultFolder/.obsidian/plugins/`.
 
-Create a new folder called "bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
+3. Create a new folder called "bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
 
-You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/bitcoin-block-stamp/`.
+4. You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/bitcoin-block-stamp/`.
 
-Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
+5. Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
 
 ## Support me
 
@@ -66,7 +66,7 @@ Lightning Address:
 sefiro@getalby.com
 ```
 
-I appreciate your support, thank you!
+I appreciate your support very much, thank you!
 
 ---
 
