@@ -2,7 +2,7 @@
 
 > Stamp your notes with the current Bitcoin block.
 
-[![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square)](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases) [![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square)](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/blob/master/LICENSE) [![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24%5B%22bitcoin-block-stamp%22%5D.downloads&style=flat-square&logo=obsidian&label=downloads&color=7c3aed)](https://obsidian.md/plugins?id=bitcoin-block-stamp)
+![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24%5B%22bitcoin-block-stamp%22%5D.downloads&style=flat-square&logo=obsidian&label=downloads&color=7c3aed)
 
 ---
 
