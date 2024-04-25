@@ -11,10 +11,10 @@ export default class BbsCore {
 		this.editor = editor;
 	}
 
-	async insertBlockHeight (unixTimestamp?: string) {
+	async insertBlockHeight (unixTimestamp?: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {
 		try {
-			const blockParams = await this.getBlockHeight(unixTimestamp);
-			const blockHeightString = await this.blockHeightString(...blockParams);
+			const blockParams: [number, string?] = await this.getBlockHeight(unixTimestamp);
+			const blockHeightString: string = await this.blockHeightString(...blockParams, blockHeightFormat);
 			
 			this.editor.replaceSelection(blockHeightString);
 		} catch (error) {
@@ -22,10 +22,10 @@ export default class BbsCore {
 		}
 	}
 
-	async insertMoscowTime (unixTimestamp?: string) {
+	async insertMoscowTime (unixTimestamp?: string, moscowTimeFormat: string = this.plugin.settings.moscowTimeFormat) {
 		try {
-			const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
-			const moscowTimeString = this.moscowTimeString(BTCUSD);
+			const BTCUSD: number = await this.getBitcoinPrice(unixTimestamp);
+			const moscowTimeString: string = this.moscowTimeString(BTCUSD, moscowTimeFormat);
 
 			this.editor.replaceSelection(moscowTimeString);
 		} catch (error) {
@@ -33,13 +33,13 @@ export default class BbsCore {
 		}
 	}
 
-	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string) {
+	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string, moscowTimeFormat: string = this.plugin.settings.moscowTimeFormat, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {
 		try {
-			const BTCUSD = await this.getBitcoinPrice(unixTimestamp);
-			const blockParams = await this.getBlockHeight(unixTimestamp);
+			const BTCUSD: number = await this.getBitcoinPrice(unixTimestamp);
+			const blockParams: [number, string?] = await this.getBlockHeight(unixTimestamp);
 			
-			const moscowTimeString = this.moscowTimeString(BTCUSD);
-			const blockHeightString = await this.blockHeightString(...blockParams);
+			const moscowTimeString:string = this.moscowTimeString(BTCUSD,moscowTimeFormat);
+			const blockHeightString: string = await this.blockHeightString(...blockParams, blockHeightFormat);
 
 			this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
 		} catch (error) {
@@ -47,7 +47,7 @@ export default class BbsCore {
 		}
 	}
 
-	private async blockHeightString (blockHeight: number, blockHash?: string) {	
+	private async blockHeightString (blockHeight: number, blockHash?: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {	
 		type sepOptions = { [key: string]: string }
 		const separator: sepOptions = {
 			plain: '',
@@ -58,7 +58,7 @@ export default class BbsCore {
 			apostrophe: '\''
 		}
 
-		const blockHeightFormat: string = separator[this.plugin.settings.blockHeightFormat]
+		blockHeightFormat = separator[blockHeightFormat]
 
 		const formattedBlockHeight: string = blockHeight.toLocaleString('en-US')
 			.replace(/,/g, blockHeightFormat);
@@ -91,12 +91,12 @@ export default class BbsCore {
 
 	private moscowTime (BTCUSD: number) {
 		const BTCSATS = 100000000;
-		const USDSATS = Math.round(BTCSATS / BTCUSD);
+		const USDSATS: number = Math.round(BTCSATS / BTCUSD);
 	
 		return USDSATS;
 	}
 
-	private moscowTimeString (BTCUSD: number) {
+	private moscowTimeString (BTCUSD: number, moscowTimeFormat: string = this.plugin.settings.moscowTimeFormat) {
 		const moscowTime: number = this.moscowTime(BTCUSD);
 
 		type sepOptions = { [key: string]: string }
@@ -106,7 +106,7 @@ export default class BbsCore {
 			period: '.',
 		}
 
-		const moscowTimeFormat: string = separator[this.plugin.settings.moscowTimeFormat];
+		moscowTimeFormat = separator[moscowTimeFormat];
 
 		const moscowTimeString: string = moscowTime.toString()
 			.padStart((moscowTimeFormat === '') ? 0 : 4, '0')
