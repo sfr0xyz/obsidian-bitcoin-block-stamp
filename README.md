@@ -1,14 +1,12 @@
 # Bitcoin Block Stamp for Obsidian
 
-![Version][version-badge] ![License][license-badge] ![Dynamic JSON Badge][downloads-badge]
+![Version][version-badge] ![License][license-badge] ![Obsidian downloads][downloads-badge]
 
 Stamp your notes with the Bitcoin block height and Moscow time. Add the latest stamp or the stamp for any time in the past up to the Genesis block.
 
 <div align="center">
   <img src="./docs/bbs-demo.png" alt="BBS Demo" width="80%">
 </div>
-
-<!-- TODO update README to new feature -->
 
 ## Features
 
