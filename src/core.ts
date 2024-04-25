@@ -1,6 +1,6 @@
-import { Editor, Notice, requestUrl } from 'obsidian';
+import { Editor, Notice, requestUrl, moment } from 'obsidian';
 import BbsPlugin from '../main';
-import mempoolJS from '@mempool/mempool.js';
+//import mempoolJS from '@mempool/mempool.js';
 
 export default class BbsCore {
 	plugin: BbsPlugin
@@ -13,12 +13,13 @@ export default class BbsCore {
 
 	async insertBlockHeight (unixTimestamp?: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {
 		try {
-			const blockParams: [number, string?] = await this.getBlockHeight(unixTimestamp);
-			const blockHeightString: string = await this.blockHeightString(...blockParams, blockHeightFormat);
+			const blockParams: [number, string] = await this.getBlockHeight(unixTimestamp);
+			const blockHeightString: string = await this.blockHeightString(blockParams[0], blockParams[1], blockHeightFormat);
 			
 			this.editor.replaceSelection(blockHeightString);
 		} catch (error) {
 			new Notice(`An error occurred:\n${error.message}`);
+			console.log(error.message);
 		}
 	}
 
@@ -30,24 +31,26 @@ export default class BbsCore {
 			this.editor.replaceSelection(moscowTimeString);
 		} catch (error) {
 			new Notice(`An error occurred:\n${error.message}`);
+			console.log(error.message);
 		}
 	}
 
 	async insertMoscowTimeAtBlockHeight (unixTimestamp?: string, moscowTimeFormat: string = this.plugin.settings.moscowTimeFormat, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {
 		try {
 			const BTCUSD: number = await this.getBitcoinPrice(unixTimestamp);
-			const blockParams: [number, string?] = await this.getBlockHeight(unixTimestamp);
+			const blockParams: [number, string] = await this.getBlockHeight(unixTimestamp);
 			
 			const moscowTimeString:string = this.moscowTimeString(BTCUSD,moscowTimeFormat);
-			const blockHeightString: string = await this.blockHeightString(...blockParams, blockHeightFormat);
+			const blockHeightString: string = await this.blockHeightString(blockParams[0], blockParams[1], blockHeightFormat);
 
 			this.editor.replaceSelection(`${moscowTimeString} @ ${blockHeightString}`);
 		} catch (error) {
 			new Notice(`An error occurred:\n${error.message}`);
+			console.log(error.message);
 		}
 	}
 
-	private async blockHeightString (blockHeight: number, blockHash?: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {	
+	private async blockHeightString (blockHeight: number, blockHash: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {	
 		type sepOptions = { [key: string]: string }
 		const separator: sepOptions = {
 			plain: '',
@@ -66,9 +69,8 @@ export default class BbsCore {
 		let blockHeightString: string;
 		switch (this.plugin.settings.blockExplorer) {
 			case 'mempool_space': {
-				if (typeof blockHash === 'undefined') {
-					blockHash = await this.getBlockHash(blockHeight);
-				}
+				if (!blockHash) { blockHash = await this.getBlockHash(blockHeight); }
+				
 				blockHeightString = `[${formattedBlockHeight}](https://mempool.space/block/${blockHash})`;	
 				break;
 			}
@@ -140,7 +142,7 @@ export default class BbsCore {
 	}
 	
 	private async getBlockHeight (unixTimestamp?: string) {
-		let blockParams: [height: number, hash?: string];
+		let blockParams: [height: number, hash: string];
 
 		if (typeof unixTimestamp !== 'undefined') {
 			if (!isValidUnixTimestamp(unixTimestamp)[0]) { throw new Error(`Invalid timestamp: ${unixTimestamp}`) }
@@ -150,20 +152,22 @@ export default class BbsCore {
 
 			blockParams = [json.height, json.hash];
 		} else {
-			const { bitcoin: { blocks } } = mempoolJS({hostname: 'mempool.space', network: 'mainnet'});
-			const blocksTipHeight = await blocks.getBlocksTipHeight();
-			
-			blockParams = [blocksTipHeight];
+			const response = await requestUrl('https://mempool.space/api/blocks/tip/height');
+			const json = await response.json;
+
+			blockParams = [json, ''];
 		}
 
 		return blockParams;
 	}
 
 	private async getBlockHash (blockHeight: number) {
-		const { bitcoin: { blocks } } = mempoolJS({hostname: 'mempool.space', network: 'mainnet'});
-		const blockHash = await blocks.getBlockHeight({ height: blockHeight });
-	
-		return blockHash;
+		//const response = await requestUrl(`https://mempool.space/api/block-height/${blockHeight}`);
+		//const json = await response.json;
+		const response = await requestUrl(`https://mempool.space/api/v1/mining/blocks/timestamp/${moment().format('X')}`);			
+		const json = await response.json;
+
+		return json.hash;
 	}
 }
 
