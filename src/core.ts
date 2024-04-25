@@ -113,7 +113,8 @@ export default class BbsCore {
 			.split('').reverse().join('')
 			.split(/(\d{2})/g)
 			.filter(v => v !== '')
-			.reverse().join(moscowTimeFormat);
+			.join(moscowTimeFormat)
+			.split('').reverse().join('');
 
 		return moscowTimeString;
 	}
