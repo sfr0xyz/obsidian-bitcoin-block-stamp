@@ -8,5 +8,5 @@
 	"authorUrl": "https://github.com/sfr0xyz",
 	"fundingUrl": {
 		"Alby (Bitcoin/Lightning)": "https://getalby.com/p/sefiro"},
-	"isDesktopOnly": true
+	"isDesktopOnly": false
 }
