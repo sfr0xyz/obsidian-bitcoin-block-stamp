@@ -16,7 +16,7 @@ Stamp your notes with the Bitcoin block height and Moscow time. Add the latest s
 - Insert the latest or custom [_Moscow time_](https://thebitcoinmanual.com/btc-culture/glossary/moscow-time/).
 - Insert the latest or custom _Moscow time at block height_, the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta) format.
 - Add a link to your preferred block explorer for the block height.
-- Choose your preferred block height and Moscow time formats.
+- Display the block height and Moscow time in your preferred formats.
 
 ## Usage
 
@@ -32,7 +32,7 @@ After you successfully [installed and enabled](#installation) the plugin, you sh
 ## Settings
 
 - **Block explorer**: Select your preferred block explorer (or none).\
-  The block height stamp will be inserted as a Markdown link to corresponding block in the selected block explorer. Currently supported block explorers are [Mempool.space](https://mempool.space), [Blockstream.info](https://blockstream.info), and [TimechainCalendar.com](http://timechaincalendar.com).
+  The block height stamp gets inserted as a Markdown link to corresponding block in your selected block explorer. At this time, the [Mempool.space](https://mempool.space), [Blockstream.info](https://blockstream.info), and [TimechainCalendar.com](http://timechaincalendar.com) are supported.
 - **Block height format**: Select your preferred block height format.\
   You can choose between plain (840000), comma (840,000), period (840.000), space (840 000), apostrophe (840'000), and underscore (840\_000).
 - **Moscow time format**: Select your preferred Moscow time format.\
@@ -70,7 +70,7 @@ Thank you for using this plugin!
 
 Your feedback is very much appreciated. If you have a feature idea or found a bug you can tag me on [nostr](https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp) or open an [issue on GitHub](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/issues).
 
-If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Check out my [Alby page](https://getalby.com/p/sefiro).
+If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Visit my [Alby page](https://getalby.com/p/sefiro) or zap me on [nostr](https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp).
 
 Lightning Address:
 
