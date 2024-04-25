@@ -9,7 +9,7 @@ export default class BbsPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.addRibbonIcon('bitcoin', 'Historical Bitcoin block stamp', (evt: MouseEvent) => {
+		this.addRibbonIcon('bitcoin', 'Insert custom Bitcoin block stamp', (evt: MouseEvent) => {
 			new BbsModal(this.app, this).open();
 		});
 
@@ -39,7 +39,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'insert-historical-block-stamp',
-			name: 'Insert historical block stamp',
+			name: 'Insert custom block stamp',
 			editorCallback: () => {
 				new BbsModal(this.app, this).open();
 			}
