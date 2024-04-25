@@ -1,10 +1,6 @@
 # Bitcoin Block Stamp for Obsidian
 
-> Stamp your notes with the current Bitcoin block.
-
 ![Version](https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![License](https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square) ![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24%5B%22bitcoin-block-stamp%22%5D.downloads&style=flat-square&logo=obsidian&label=downloads&color=7c3aed)
-
----
 
 Stamp your notes with the Bitcoin block height and Moscow time. Add the latest stamp or the stamp for any time in the past up to the Genesis block.
 
@@ -56,21 +52,23 @@ This plugin uses the [mempool.space REST API](https://mempool.space/docs/api/res
 
 3. Create a new folder called "bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
 
-4. You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/bitcoin-block-stamp/`.
+You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `VaultFolder/.obsidian/plugins/bitcoin-block-stamp/`.
 
-5. Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
+4. Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
 
-## Support me
+## Thank you
 
-If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Visit my [Alby page](https://getalby.com/p/sefiro).
+Thank you for using this plugin!
+
+Any feedback is much appreciated. If you have a feature idea or have found a bug you can contact me on [nostr](https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp) or open an [issue on GitHub](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/issues).
+
+If you like this plugin and want to support me, you can send me some sats via the Bitcoin Lightning Network. Check out my [Alby page](https://getalby.com/p/sefiro).
 
 Lightning Address:
 
-```txtNote: To allow specific HTML elements, use the allowed_elements parameter.
+```plaintext
 sefiro@getalby.com
 ```
-
-I appreciate your support very much, thank you!
 
 ---
 
