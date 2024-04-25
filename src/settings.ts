@@ -28,7 +28,7 @@ export class BbsSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Block explorer')
-			.setDesc('Select block explorer for block height links')
+			.setDesc('Block explorer for block height links')
 			.addDropdown(dropdown => dropdown
         .addOption('_NONE_', 'None')
 				.addOption('mempool_space', 'Mempool.space')
@@ -43,14 +43,14 @@ export class BbsSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Block height format')
-			.setDesc('Select thousands separator')
+			.setDesc('Thousands separator')
 			.addDropdown(dropdown => dropdown
 				.addOption('plain', 'Plain (840000)')
 				.addOption('comma', 'Comma (840,000)')
 				.addOption('period', 'Period (840.000)')
 				.addOption('space', 'Space (840 000)')
-				.addOption('underscore', 'Underscore (840_000)')
 				.addOption('apostrophe', 'Apostrophe (840\'000)')
+				.addOption('underscore', 'Underscore (840_000)')
 				.setValue(this.plugin.settings.blockHeightFormat)
 				.onChange(async value => {
 					this.plugin.settings.blockHeightFormat = value as 'plain' | 'comma' | 'period' | 'space' | 'underscore' | 'apostrophe';
@@ -60,7 +60,7 @@ export class BbsSettingTab extends PluginSettingTab {
 		
 		new Setting(containerEl)
 			.setName('Moscow time format')
-			.setDesc('Select time format separator')
+			.setDesc('Time format separator')
 			.addDropdown(dropdown => dropdown
 				.addOption('plain', 'Plain (1566)')
 				.addOption('colon', 'Colon (15:66)')
