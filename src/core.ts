@@ -48,26 +48,40 @@ export default class BbsCore {
 	}
 
 	private async blockHeightString (blockHeight: number, blockHash?: string) {	
+		type sepOptions = { [key: string]: string }
+		const separator: sepOptions = {
+			plain: '',
+			comma: ',',
+			period: '.',
+			space: ' ',
+			underscore: '_',
+			apostrophe: '\''
+		}
+
+		const blockHeightFormat: string = separator[this.plugin.settings.blockHeightFormat]
+
+		const formattedBlockHeight: string = blockHeight.toLocaleString('en-US')
+			.replace(/,/g, blockHeightFormat);
+
 		let blockHeightString: string;
-	
 		switch (this.plugin.settings.blockExplorer) {
 			case 'mempool_space': {
 				if (typeof blockHash === 'undefined') {
 					blockHash = await this.getBlockHash(blockHeight);
 				}
-				blockHeightString = `[${blockHeight}](https://mempool.space/block/${blockHash})`;	
+				blockHeightString = `[${formattedBlockHeight}](https://mempool.space/block/${blockHash})`;	
 				break;
 			}
 			case 'blockstream_info': {
-				blockHeightString = `[${blockHeight}](https://blockstream.info/block-height/${blockHeight})`;
+				blockHeightString = `[${formattedBlockHeight}](https://blockstream.info/block-height/${blockHeight})`;
 				break;
 			}
 			case 'timechaincalendar_com': {
-				blockHeightString = `[${blockHeight}](https://timechaincalendar.com/en/block/${blockHeight})`;
+				blockHeightString = `[${formattedBlockHeight}](https://timechaincalendar.com/en/block/${blockHeight})`;
 				break;
 			}
 			default: {
-				blockHeightString = blockHeight.toString();
+				blockHeightString = formattedBlockHeight;
 				break;
 			}
 		}
@@ -83,8 +97,25 @@ export default class BbsCore {
 	}
 
 	private moscowTimeString (BTCUSD: number) {
-		const moscowTime = this.moscowTime(BTCUSD);
-		return moscowTime.toString();
+		const moscowTime: number = this.moscowTime(BTCUSD);
+
+		type sepOptions = { [key: string]: string }
+		const separator: sepOptions = {
+			plain: '',
+			colon: ':',
+			period: '.',
+		}
+
+		const moscowTimeFormat: string = separator[this.plugin.settings.moscowTimeFormat];
+
+		const moscowTimeString: string = moscowTime.toString()
+			.padStart((moscowTimeFormat === '') ? 0 : 4, '0')
+			.split('').reverse().join('')
+			.split(/(\d{2})/g)
+			.filter(v => v !== '')
+			.reverse().join(moscowTimeFormat);
+
+		return moscowTimeString;
 	}
 	
 	private async getBitcoinPrice (unixTimestamp?: string, currency = 'USD') {
