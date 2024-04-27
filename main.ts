@@ -1,7 +1,7 @@
 import { Editor, Plugin } from 'obsidian';
-import BbsCore from './src/core';
-import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from './src/settings';
-import { BbsModal } from './src/modals';
+import BbsCore from 'src/core';
+import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from 'src/settings';
+import { BbsModal } from 'src/modals';
 
 export default class BbsPlugin extends Plugin {
 	settings: BbsPluginSettings;

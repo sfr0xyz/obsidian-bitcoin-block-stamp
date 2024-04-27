@@ -1,6 +1,6 @@
 import { App, Modal, Setting, Editor, MarkdownView, moment, Notice } from 'obsidian';
-import BbsPlugin from '../main';
-import BbsCore from './core';
+import BbsPlugin from 'main';
+import BbsCore from 'src/core';
 
 export class BbsModal extends Modal {
   unixTimestamp: string;

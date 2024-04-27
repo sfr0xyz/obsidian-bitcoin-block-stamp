@@ -1,5 +1,5 @@
 import { Editor, Notice, requestUrl, moment } from 'obsidian';
-import BbsPlugin from '../main';
+import BbsPlugin from 'main';
 //import mempoolJS from '@mempool/mempool.js';
 
 export default class BbsCore {

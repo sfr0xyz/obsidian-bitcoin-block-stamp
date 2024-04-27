@@ -1,4 +1,4 @@
-import BbsPlugin from '../main';
+import BbsPlugin from 'main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
 
 export interface BbsPluginSettings {
