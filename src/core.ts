@@ -1,14 +1,13 @@
-import { Editor, Notice, requestUrl, moment } from 'obsidian';
+import { Editor, Notice, requestUrl, moment, TFile } from 'obsidian';
 import BbsPlugin from 'main';
-//import mempoolJS from '@mempool/mempool.js';
 
 export default class BbsCore {
 	plugin: BbsPlugin
 	editor: Editor
 
-	constructor (plugin: BbsPlugin, editor: Editor) {
+	constructor (plugin: BbsPlugin, editor?: Editor) {
 		this.plugin = plugin;
-		this.editor = editor;
+		if (editor) { this.editor = editor; }
 	}
 
 	async insertBlockHeight (unixTimestamp?: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {
@@ -48,6 +47,21 @@ export default class BbsCore {
 			new Notice(`An error occurred:\n${error.message}`);
 			console.log(error.message);
 		}
+	}
+
+	async replacePlaceholders (file: TFile) {
+		const { vault } = this.plugin.app;
+		console.log('vault', vault);
+		console.log('file', file);
+
+		const fileContent = await vault.read(file);
+		const newFileContent = fileContent
+			.replace(/{{blockheight}}/g, '000000')
+			.replace(/{{moscowtime}}/g, '2121')
+			.replace(/{{mt@bh}}/g, '2121 @ 000000')
+
+
+		vault.modify(file, newFileContent);
 	}
 
 	private async blockHeightString (blockHeight: number, blockHash: string, blockHeightFormat: string = this.plugin.settings.blockHeightFormat) {	

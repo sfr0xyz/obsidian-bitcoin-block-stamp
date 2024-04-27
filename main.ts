@@ -1,4 +1,4 @@
-import { Editor, Plugin } from 'obsidian';
+import { Editor, Plugin, TFile } from 'obsidian';
 import BbsCore from 'src/core';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from 'src/settings';
 import { BbsModal } from 'src/modals';
@@ -46,6 +46,12 @@ export default class BbsPlugin extends Plugin {
 		});
 		
 		this.addSettingTab(new BbsSettingTab(this.app, this));
+
+		this.app.workspace.onLayoutReady(() => {
+			this.app.vault.on('create', (file: TFile) => {
+				new BbsCore(this).replacePlaceholders(file);
+			})
+		})
 	}
 
 	onunload() {
