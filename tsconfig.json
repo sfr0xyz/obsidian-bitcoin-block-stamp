@@ -10,13 +10,19 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "isolatedModules": true,
-	"strictNullChecks": true,
+	  "strictNullChecks": true,
     "lib": [
       "DOM",
       "ES5",
       "ES6",
       "ES7"
-    ]
+    ],
+    "paths": {
+      "@utils/*": ["src/utils/*"],
+      "@apis/*": ["src/apis/*"],
+      "@modals/*": ["src/modals/*"],
+      "@src/*": ["src/*"]
+    }
   },
   "include": [
     "**/*.ts"

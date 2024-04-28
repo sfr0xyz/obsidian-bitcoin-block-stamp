@@ -1,7 +1,8 @@
-import { Editor, Plugin, TFile } from 'obsidian';
-import BbsCore from 'src/core';
-import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from 'src/settings';
-import { BbsModal } from 'src/modals';
+import { Editor, Plugin, TFile, Notice } from 'obsidian';
+import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from '@src/settings';
+import { CustomStampModal } from '@modals/custom-stamp';
+import { Stamp } from '@src/stamp';
+import { insertAtCursor, replacePlaceholders } from '@utils/utils';
 
 export default class BbsPlugin extends Plugin {
 	settings: BbsPluginSettings;
@@ -10,30 +11,48 @@ export default class BbsPlugin extends Plugin {
 		await this.loadSettings();
 
 		this.addRibbonIcon('bitcoin', 'Insert custom Bitcoin block stamp', (evt: MouseEvent) => {
-			new BbsModal(this.app, this).open();
+			new CustomStampModal(this.app, this).open();
 		});
 
 		this.addCommand({
 			id: 'insert-current-block-height',
 			name: 'Insert current block height',
-			editorCallback: (editor: Editor) => {
-				new BbsCore(this, editor).insertBlockHeight();
+			editorCallback: async (editor: Editor) => {
+				try {
+					const blockHeight: string = await new Stamp().blockHeight(this.settings.blockHeightFormat, this.settings.blockExplorer);
+					insertAtCursor(blockHeight, editor);
+				} catch (error) {
+					console.error(error);
+					new Notice('An error occured', error.message);
+				}
 			}
 		});
 
 		this.addCommand({
 			id: 'insert-current-moscow-time',
 			name: 'Insert current Moscow time',
-			editorCallback: (editor: Editor) => {
-				new BbsCore(this, editor).insertMoscowTime();
+			editorCallback: async (editor: Editor) => {
+				try {
+					const moscowTime: string = await new Stamp().moscowTime(this.settings.moscowTimeFormat);
+					insertAtCursor(moscowTime, editor);
+				} catch (error) {
+					console.error(error);
+					new Notice('An error occured', error.message);
+				}	
 			}
 		});
 
 		this.addCommand({
 			id: 'insert-current-moscow-time-at-block-height',
 			name: 'Insert current Moscow time @ block height',
-			editorCallback: (editor: Editor) => {
-				new BbsCore(this, editor).insertMoscowTimeAtBlockHeight();
+			editorCallback: async (editor: Editor) => {
+				try{
+					const moscowTimeAtBlockHeight: string = await new Stamp().moscowTimeAtBlockHeight(this.settings.moscowTimeFormat, this.settings.blockHeightFormat, this.settings.blockExplorer);
+					insertAtCursor(moscowTimeAtBlockHeight, editor);
+				} catch (error) {
+					console.error(error);
+					new Notice('An error occured', error.message);
+				}
 			}
 		});
 
@@ -41,7 +60,7 @@ export default class BbsPlugin extends Plugin {
 			id: 'insert-historical-block-stamp',
 			name: 'Insert custom block stamp',
 			editorCallback: () => {
-				new BbsModal(this.app, this).open();
+				new CustomStampModal(this.app, this).open();
 			}
 		});
 		
@@ -49,7 +68,7 @@ export default class BbsPlugin extends Plugin {
 
 		this.app.workspace.onLayoutReady(() => {
 			this.app.vault.on('create', (file: TFile) => {
-				new BbsCore(this).replacePlaceholders(file);
+				replacePlaceholders(this.app.vault, file, {'hi': 'holi'});
 			})
 		})
 	}

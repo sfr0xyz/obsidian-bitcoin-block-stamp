@@ -1,16 +1,17 @@
+import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat } from '@utils/types';
 import BbsPlugin from 'main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
 
 export interface BbsPluginSettings {
-	blockExplorer: '_NONE_' | 'mempool_space' | 'blockstream_info' | 'timechaincalendar_com';
-	blockHeightFormat: 'plain' | 'comma' | 'period' | 'space' | 'underscore' | 'apostrophe';
-	moscowTimeFormat: 'plain' | 'colon' | 'period';
+	blockExplorer: BlockExplorer;
+	blockHeightFormat: BlockHeightFormat;
+	moscowTimeFormat: MoscowTimeFormat;
 }
 
 export const DEFAULT_SETTINGS: BbsPluginSettings = {
-	blockExplorer: '_NONE_',
-	blockHeightFormat: 'plain',
-	moscowTimeFormat: 'plain'
+	blockExplorer: '',
+	blockHeightFormat: '',
+	moscowTimeFormat: ''
 }
 
 export class BbsSettingTab extends PluginSettingTab {
@@ -28,46 +29,46 @@ export class BbsSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Block explorer')
-			.setDesc('Block explorer for block height links')
+			.setDesc('Set block explorer for block height links')
 			.addDropdown(dropdown => dropdown
-        .addOption('_NONE_', 'None')
-				.addOption('mempool_space', 'Mempool.space')
-				.addOption('blockstream_info', 'Blockstream.info')
-				.addOption('timechaincalendar_com', 'TimechainCalendar.com')
+        .addOption('', 'None')
+				.addOption('mempool-space', 'Mempool.space')
+				.addOption('blockstream-info', 'Blockstream.info')
+				.addOption('timechaincalendar-com', 'TimechainCalendar.com')
 				.setValue(this.plugin.settings.blockExplorer)
 				.onChange(async value => {
-					this.plugin.settings.blockExplorer = value as '_NONE_' | 'mempool_space' | 'blockstream_info' | 'timechaincalendar_com';
+					this.plugin.settings.blockExplorer = value as BlockExplorer;
 					await this.plugin.saveSettings()
 				})
 			)
 
 		new Setting(containerEl)
 			.setName('Block height format')
-			.setDesc('Thousands separator')
+			.setDesc('Set thousands separator')
 			.addDropdown(dropdown => dropdown
-				.addOption('plain', 'Plain (840000)')
-				.addOption('comma', 'Comma (840,000)')
-				.addOption('period', 'Period (840.000)')
-				.addOption('space', 'Space (840 000)')
-				.addOption('apostrophe', 'Apostrophe (840\'000)')
-				.addOption('underscore', 'Underscore (840_000)')
+				.addOption('', 'Plain (840000)')
+				.addOption(',', 'Comma (840,000)')
+				.addOption('.', 'Period (840.000)')
+				.addOption(' ', 'Space (840 000)')
+				.addOption('\'', 'Apostrophe (840\'000)')
+				.addOption('_', 'Underscore (840_000)')
 				.setValue(this.plugin.settings.blockHeightFormat)
 				.onChange(async value => {
-					this.plugin.settings.blockHeightFormat = value as 'plain' | 'comma' | 'period' | 'space' | 'underscore' | 'apostrophe';
+					this.plugin.settings.blockHeightFormat = value as BlockHeightFormat;
 					await this.plugin.saveSettings();
 				})
 			)
 		
 		new Setting(containerEl)
 			.setName('Moscow time format')
-			.setDesc('Time format separator')
+			.setDesc('Set time format separator')
 			.addDropdown(dropdown => dropdown
-				.addOption('plain', 'Plain (1566)')
-				.addOption('colon', 'Colon (15:66)')
-				.addOption('period', 'Period (15.66)')
+				.addOption('', 'Plain (1566)')
+				.addOption(':', 'Colon (15:66)')
+				.addOption('.', 'Period (15.66)')
 				.setValue(this.plugin.settings.moscowTimeFormat)
 				.onChange(async value => {
-					this.plugin.settings.moscowTimeFormat = value as 'plain' | 'colon' | 'period';
+					this.plugin.settings.moscowTimeFormat = value as MoscowTimeFormat;
 					await this.plugin.saveSettings();
 				})
 			)

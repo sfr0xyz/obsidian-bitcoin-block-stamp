@@ -82,17 +82,17 @@ export default class BbsCore {
 
 		let blockHeightString: string;
 		switch (this.plugin.settings.blockExplorer) {
-			case 'mempool_space': {
+			case 'mempool-space': {
 				if (!blockHash) { blockHash = await this.getBlockHash(blockHeight); }
 				
 				blockHeightString = `[${formattedBlockHeight}](https://mempool.space/block/${blockHash})`;	
 				break;
 			}
-			case 'blockstream_info': {
+			case 'blockstream-info': {
 				blockHeightString = `[${formattedBlockHeight}](https://blockstream.info/block-height/${blockHeight})`;
 				break;
 			}
-			case 'timechaincalendar_com': {
+			case 'timechaincalendar-com': {
 				blockHeightString = `[${formattedBlockHeight}](https://timechaincalendar.com/en/block/${blockHeight})`;
 				break;
 			}

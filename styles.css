@@ -1,9 +1,17 @@
 .datetimeOutput {
-    text-align: right;
+    border: solid var(--border-width) var(--background-modifier-border);
+    border-bottom: 0;
+    padding: var(--size-4-1);
+    font-weight: var(--font-semibold);
+    text-align: center;
     color: var(--text-normal);
+    background-color: var(--background-primary-alt);
 }
 
 .datetimeOutput-error {
-    text-align: right;
     color: var(--text-error);
+}
+
+.strikethrough {
+    text-decoration: line-through;
 }
