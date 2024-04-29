@@ -1,5 +1,5 @@
 import { MempoolSpaceApi } from '@apis/rest';
-import { BLOCK_EXPLORERS } from '@utils/constants';
+import { BLOCK_EXPLORERS, SEPARATORS } from '@utils/constants';
 import { UnixTimestamp, Api, BlockId, MoscowTimeFormat, BlockHeightFormat, BlockExplorer } from '@utils/types';
 
 export class Stamp {
@@ -11,11 +11,11 @@ export class Stamp {
     if (unixTimestamp) { this.unixTimestamp = unixTimestamp; }
   }
 
-  async blockHeight(format: BlockHeightFormat='', blockExplorer: BlockExplorer=''): Promise<string> {
+  async blockHeight(format: BlockHeightFormat='plain', blockExplorer: BlockExplorer=''): Promise<string> {
     const block: BlockId = await this.getBlock();
 
     let sBlockHeight: string = block.height.toLocaleString('en-US')
-      .replace(/,/g, format);
+      .replace(/,/g, SEPARATORS[format]);
 
     if (blockExplorer) {
       sBlockHeight = `[${sBlockHeight}](${BLOCK_EXPLORERS[blockExplorer]})`
@@ -26,19 +26,20 @@ export class Stamp {
     return sBlockHeight;
   }
 
-  async moscowTime(format: MoscowTimeFormat=''): Promise<string> {
+  async moscowTime(format: MoscowTimeFormat='plain'): Promise<string> {
     const moscowTime: number = await this.getMoscowTime();
+    const separator = SEPARATORS[format]
     const sMoscowTime: string = moscowTime.toString()
-			.padStart((format === '') ? 0 : 4, '0')
+			.padStart((separator) ? 4 : 0, '0')
 			.split('').reverse().join('')
 			.split(/(\d{2})/g)
 			.filter(v => v !== '')
-			.join(format)
+			.join(separator)
 			.split('').reverse().join('');
     return sMoscowTime
   }
 
-  async moscowTimeAtBlockHeight (moscowTimeFormat: MoscowTimeFormat='', blockHeightFormat: BlockHeightFormat='', blockExplorer: BlockExplorer=''): Promise<string> {
+  async moscowTimeAtBlockHeight (moscowTimeFormat: MoscowTimeFormat='plain', blockHeightFormat: BlockHeightFormat='plain', blockExplorer: BlockExplorer=''): Promise<string> {
     const moscowTime: string = await this.moscowTime(moscowTimeFormat);
     const blockHeight: string = await this.blockHeight(blockHeightFormat, blockExplorer);
 

@@ -17,8 +17,8 @@ export class CustomStampModal extends Modal {
     super(app);
     this.plugin = plugin;
     this.stampKind = 'block-height';
-    this.blockHeightFormat = this.plugin.settings.blockHeightFormat;
-    this.moscowTimeFormat = this.plugin.settings.moscowTimeFormat;
+    this.blockHeightFormat = this.plugin.settings.formats.blockHeight;
+    this.moscowTimeFormat = this.plugin.settings.formats.moscowTime;
     this.blockExplorer = this.plugin.settings.blockExplorer;
   }
   
@@ -158,31 +158,10 @@ export class CustomStampModal extends Modal {
           this.close();
         })
       );
-}
+  }
 
-onClose() {
-  const { contentEl } = this;
-  contentEl.empty();
-}
-}
-
-/*
-function isValidDatetimeInput (unixTimestamp: string, datetimeOutputFormat = 'YYYY-MM-DD HH:mm:ss [UTC]ZZ') {
-  const genesisBlockTimestamp = '1231006505';
-  let isValid = true;
-  let problemMessage = '';
-  if (unixTimestamp < genesisBlockTimestamp) {
-    isValid = false;
-    problemMessage = `Date lies before the Genesis block (${moment(genesisBlockTimestamp, 'X').format(datetimeOutputFormat)})`;
+  onClose() {
+    const { contentEl } = this;
+    contentEl.empty();
   }
-  if (unixTimestamp > moment().format('X')) {
-    isValid = false;
-    problemMessage = `Date lies in the future`;
-  }
-  if (unixTimestamp.length !== 10) {
-    isValid = false;
-    problemMessage = `Not a date`;
-  }
-  return {isValid, problemMessage};
 }
-*/
