@@ -10,11 +10,12 @@ Stamp your notes with the Bitcoin block height and Moscow time. Add the latest s
 
 ## Features
 
-- Insert the latest or custom _block height_.
-- Insert the latest or custom [_Moscow time_](https://thebitcoinmanual.com/btc-culture/glossary/moscow-time/).
-- Insert the latest or custom _Moscow time at block height_, the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta) format.
+- Insert the latest or custom block height.
+- Insert the latest or custom [Moscow time](https://thebitcoinmanual.com/btc-culture/glossary/moscow-time/).
+- Insert the latest or custom "Moscow time @ block height", the [Moscow Time Bot](https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta) format.
 - Add a link to your preferred block explorer for the block height.
 - Display the block height and Moscow time in your preferred formats.
+- Use stamp placeholders.
 
 ## Usage
 
@@ -22,19 +23,25 @@ After you successfully [installed and enabled](#installation) the plugin, you sh
 
 - The icon opens a window which lets you add a custom stamp. Make sure you are in the editor mode to be able to insert the stamp.
   1. Enter the date and time you wish the closest block height or Moscow time for.
-  2. Choose the stamp type and formats.
+  2. Choose the stamp kind, format, and block explorer.
   3. Select **Stamp** to insert the stamp at your current curser position.
-- You can also open this window via the command view `Ctrl + P`. Search for "Bitcoin Block Stamp: Insert custom block stamp".
-- In the command view `Ctrl + P` you can also quick add the latest _Block height_ / _Moscow time_ / _Moscow time at block height_. Search for "Bitcoin Block Stamp".
+- You can also open this window via the command view `Ctrl + P`. Search for "_Bitcoin Block Stamp: Insert custom block stamp_".
+- In the command view `Ctrl + P` you can also quick insert the latest block height / Moscow time / "Moscow time @ block height". Search for "_Bitcoin Block Stamp_".
+<!-- TODO: add stamp placeholder usage guide -->
 
 ## Settings
 
 - **Block explorer**: Select your preferred block explorer (or none).\
-  The block height stamp gets inserted as a Markdown link to corresponding block in your selected block explorer. At this time, the [Mempool.space](https://mempool.space), [Blockstream.info](https://blockstream.info), and [TimechainCalendar.com](http://timechaincalendar.com) are supported.
-- **Block height format**: Select your preferred block height format.\
+The block height stamp gets inserted as a Markdown link to corresponding block in your selected block explorer. At this time, the [Mempool.space](https://mempool.space), [Blockstream.info](https://blockstream.info), and [TimechainCalendar.com](http://timechaincalendar.com) are supported.
+- **Formats**
+  - **Block height format**: Select your preferred block height format.\
   You can choose between plain (840000), comma (840,000), period (840.000), space (840 000), apostrophe (840'000), and underscore (840\_000).
-- **Moscow time format**: Select your preferred Moscow time format.\
+  - **Moscow time format**: Select your preferred Moscow time format.\
   You can choose between plain (1566), colon (15:66), and period (15.66).
+- **Stamp placeholders**
+  - **Block height placeholder**: Set the text which will be replaced with the block height.
+  - **Moscow time placeholder**: Set the text which will be replaced with the Moscow time.
+  - **Moscow time @ block height placeholder**: Set the text which will be replaced with the "Moscow time @ block height".
 
 ## Third-party sources
 
@@ -44,11 +51,11 @@ This plugin uses the [mempool.space REST API](https://mempool.space/docs/api/res
 
 ### In Obsidian
 
-1. Go to `Settings > Community plugins > "Browse" community plugins`, and search for "Bitcoin Block Stamp".
+1. Go to `Settings > Community plugins > "Browse" community plugins`, and search for "_Bitcoin Block Stamp_".
 
 2. Select **Install** and after successful installation select **Enable**.
 
-3. You should now see "Bitcoin Block Stamp" under "Community plugins" in your Settings view.
+3. You should now see _Bitcoin Block Stamp_ under _Community plugins_ in your Settings view.
 
 ### Manually
 
@@ -60,7 +67,7 @@ This plugin uses the [mempool.space REST API](https://mempool.space/docs/api/res
 
 You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `<VAULT_DIRECTORY>/.obsidian/plugins/bitcoin-block-stamp/`.
 
-4. Go to your Obsidian vault and enable the plugin by toggling "Bitcoin Block Stamp" under `Settings > Community plugins > Installed plugins`.
+4. Go to your Obsidian vault and enable the plugin by toggling _Bitcoin Block Stamp_ under `Settings > Community plugins > Installed plugins`.
 
 ## Thank you
 
