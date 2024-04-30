@@ -61,11 +61,11 @@ This plugin uses the [mempool.space REST API](https://mempool.space/docs/api/res
 
 1. Download the release files from the [latest release](https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest).
 
-2. Go to the plugins subdirectory in your vault directory `<VAULT_DIRECTORY>/.obsidian/plugins/`.
+2. Go to the plugins subdirectory `<VAULT_DIRECTORY>/.obsidian/plugins/` in your vault directory.
 
-3. Create a new directory called "bitcoin-block-stamp" and copy and paste the the downloaded `main.js`, `styles.css`, and `manifest.json` files into it.
+3. Create a new directory called "bitcoin-block-stamp" and copy and paste the downloaded files `main.js`, `styles.css`, and `manifest.json` into it.
 
-You should now have the files `main.js`, `styles.css`, and `manifest.json` in your vault at `<VAULT_DIRECTORY>/.obsidian/plugins/bitcoin-block-stamp/`.
+You should now have `main.js`, `styles.css`, and `manifest.json` in `<VAULT_DIRECTORY>/.obsidian/plugins/bitcoin-block-stamp/`.
 
 4. Go to your Obsidian vault and enable the plugin by toggling _Bitcoin Block Stamp_ under `Settings > Community plugins > Installed plugins`.
 
