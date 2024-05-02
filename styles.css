@@ -1,6 +1,5 @@
 .datetimeOutput {
     border: solid var(--border-width) var(--background-modifier-border);
-    border-bottom: 0;
     padding: var(--size-4-1);
     font-weight: var(--font-semibold);
     text-align: center;
@@ -14,4 +13,8 @@
 
 .strikethrough {
     text-decoration: line-through;
+}
+
+.custom-stamp-settings {
+    margin-top: var(--size-4-3);
 }

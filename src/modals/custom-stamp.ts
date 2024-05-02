@@ -6,8 +6,8 @@ import { insertAtCursor, isValidDatetime, updateDateTimeOutput } from '@utils/ut
 import { DATETIME_INPUT_FORMAT, DATETIME_OUTPUT_FORMAT } from '@utils/constants';
 
 export class CustomStampModal extends Modal {
-  unixTimestamp: UnixTimestamp
   plugin: BbsPlugin
+  unixTimestamp: UnixTimestamp
   stampKind: StampKind
   blockHeightFormat: BlockHeightFormat
   moscowTimeFormat: MoscowTimeFormat
@@ -16,14 +16,15 @@ export class CustomStampModal extends Modal {
   constructor(app: App, plugin: BbsPlugin) {
     super(app);
     this.plugin = plugin;
-    this.stampKind = 'block-height';
-    this.blockHeightFormat = this.plugin.settings.formats.blockHeight;
-    this.moscowTimeFormat = this.plugin.settings.formats.moscowTime;
-    this.blockExplorer = this.plugin.settings.blockExplorer;
+    
   }
   
   onOpen() {
     const { contentEl } = this;
+    this.stampKind = 'block-height' as StampKind;
+    this.blockHeightFormat = this.plugin.settings.formats.blockHeight;
+    this.moscowTimeFormat = this.plugin.settings.formats.moscowTime;
+    this.blockExplorer = this.plugin.settings.blockExplorer;
     
     const currentDatetime = () => { 
       const current = moment().format(DATETIME_INPUT_FORMAT);
@@ -51,73 +52,85 @@ export class CustomStampModal extends Modal {
             updateDateTimeOutput(this.unixTimestamp, datetimeOutput, datetimeDate, datetimeError);
           })
         );
-    }
+    };
 
-    contentEl.createEl('h2', {text: 'Custom block stamp'});
+    const setSettings = () => {
+      new Setting(settingsEl)
+        .setName('Stamp kind')
+        .addDropdown(dropdown => dropdown
+          .addOption('block-height', 'Block height')
+          .addOption('moscow-time', 'Moscow time')
+          .addOption('moscow-time_at_block-height', 'Moscow time @ block height')
+          .setValue(this.stampKind)
+          .onChange((stampKind: StampKind) => {
+            this.stampKind = stampKind;
+            settingsEl.empty();
+            setSettings();
+          })
+        );
+
+      if (this.stampKind.includes('moscow-time')) {
+        new Setting(settingsEl)
+          .setName('Moscow time format')
+          .addDropdown(dropdown => dropdown
+            .addOption('plain', 'Plain (1566)')
+            .addOption('colon', 'Colon (15:66)')
+            .addOption('period', 'Period (15.66)')
+            .setValue(this.moscowTimeFormat)
+            .onChange((moscowTimeFormat: MoscowTimeFormat) => {
+              this.moscowTimeFormat = moscowTimeFormat;
+            })
+          );
+      }
+      if (this.stampKind.includes('block-height')) {
+        new Setting(settingsEl)
+          .setName('Block height format')
+          .addDropdown(dropdown => dropdown
+            .addOption('plain', 'Plain (840000)')
+            .addOption('comma', 'Comma (840,000)')
+            .addOption('period', 'Period (840.000)')
+            .addOption('space', 'Space (840 000)')
+            .addOption('apostrophe', 'Apostrophe (840\'000)')
+            .addOption('underscore', 'Underscore (840_000)')
+            .setValue(this.blockHeightFormat)
+            .onChange((blockHeightFormat: BlockHeightFormat) => {
+              this.blockHeightFormat = blockHeightFormat;
+            })
+          );
+        
+        new Setting(settingsEl)
+          .setName('Block explorer')
+          .addDropdown(dropdown => dropdown
+            .addOption('', 'None')
+            .addOption('mempool-space', 'Mempool.space')
+            .addOption('blockstream-info', 'Blockstream.info')
+            .addOption('timechaincalendar-com', 'TimechainCalendar.com')
+            .setValue(this.blockExplorer)
+            .onChange((blockExplorer: BlockExplorer) => {
+              this.blockExplorer = blockExplorer;
+            })
+          );
+      }
+    };
+
+    contentEl.createEl('h3', {text: 'Custom block stamp'});
 
     const dateTimeSetting = new Setting(contentEl)
       .setName('Date & time')
       .setDesc(`Date and time for which the closest block is stamped`);
     setDateTimeSetting();
-  
+
     const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });
     const datetimeDate = datetimeOutput.createEl('div');
     const datetimeError = datetimeOutput.createEl('div');
     datetimeDate.setText(moment(this.unixTimestamp, 'X').format(DATETIME_OUTPUT_FORMAT));
+
     
-    new Setting(contentEl)
-      .setName('Stamp kind')
-      .addDropdown(dropdown => dropdown
-        .addOption('block-height', 'Block height')
-        .addOption('moscow-time', 'Moscow time')
-        .addOption('moscow-time_at_block-height', 'Moscow time @ block height')
-        .setValue(this.stampKind)
-        .onChange((stampKind: StampKind) => {
-          this.stampKind = stampKind;
-          if (this.stampKind == 'block-height') { moscowTimeFormatSetting.setDisabled }
-        })
-      );
 
-    const moscowTimeFormatSetting = new Setting(contentEl)
-      .setName('Moscow time format')
-      .addDropdown(dropdown => dropdown
-        .addOption('', 'Plain (1566)')
-        .addOption(':', 'Colon (15:66)')
-        .addOption('.', 'Period (15.66)')
-        .setValue(this.moscowTimeFormat)
-        .onChange((moscowTimeFormat: MoscowTimeFormat) => {
-          this.moscowTimeFormat = moscowTimeFormat;
-        })
-      );
 
-    new Setting(contentEl)
-      .setName('Block height format')
-      .addDropdown(dropdown => dropdown
-        .addOption('', 'Plain (840000)')
-        .addOption(',', 'Comma (840,000)')
-        .addOption('.', 'Period (840.000)')
-        .addOption(' ', 'Space (840 000)')
-        .addOption('\'', 'Apostrophe (840\'000)')
-        .addOption('_', 'Underscore (840_000)')
-        .setValue(this.blockHeightFormat)
-        .onChange((blockHeightFormat: BlockHeightFormat) => {
-          this.blockHeightFormat = blockHeightFormat;
-        })
-      );
+    const settingsEl = contentEl.createEl('div', { cls: 'custom-stamp-settings' });
+    setSettings();
     
-    new Setting(contentEl)
-      .setName('Block explorer')
-      .addDropdown(dropdown => dropdown
-        .addOption('', 'None')
-				.addOption('mempool-space', 'Mempool.space')
-				.addOption('blockstream-info', 'Blockstream.info')
-				.addOption('timechaincalendar-com', 'TimechainCalendar.com')
-				.setValue(this.blockExplorer)
-        .onChange((blockExplorer: BlockExplorer) => {
-          this.blockExplorer = blockExplorer;
-        })
-      );
-
     new Setting(contentEl)
       .addButton(btn => btn
         .setButtonText('Stamp')
