@@ -28,7 +28,7 @@ After you successfully [installed and enabled](#installation) the plugin, you sh
 - Alternatively you can also open this window via the command palette (`Ctrl/Cmd + P`). Search for "_Bitcoin Block Stamp: Insert custom block stamp_".
 - If you search for "_Bitcoin Block Stamp_" in the command palette (`Ctrl/Cmd + P`) you will see a list of all available commands.\
   There you will find commands that let you quickly insert the latest block height / Moscow time / "Moscow time @ block height".
-- If you create a new note with a pre-set template, e.g. daily notes, this plugin will replace all stamp placeholders with the corresponding current block stamps. The default stamp placeholders are `{{blockheight}}`, `{{moscowtime}}`, and `{{moscowtime-at-blockheight}}`, but you can change this in the settings.\
+- If you create a new note with a pre-set template, e.g. daily notes, this plugin will replace all stamp placeholders with the corresponding current block stamps. The default stamp placeholders are `{{blockheight}}`, `{{moscowtime}}`, and `{{moscowtime@blockheight}}`, but you can change this in the settings.\
   At any time you can also manually replace all placeholders in your active note with the "_Bitcoin Block Stamp: Replace stamp placeholders_" command.
 
 ## Settings
