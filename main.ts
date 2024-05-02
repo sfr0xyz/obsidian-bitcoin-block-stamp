@@ -11,8 +11,28 @@ export default class BbsPlugin extends Plugin {
   async onload() {
     await this.loadSettings();
 
+    this.addSettingTab(new BbsSettingTab(this.app, this));
+
     this.addRibbonIcon('bitcoin', 'Insert custom Bitcoin block stamp', () => {
-      new CustomStampModal(this.app, this).open();
+      try {
+        new CustomStampModal(this.app, this).open();
+      } catch (error) {
+        console.error(error);
+        new Notice('🛑 An error occurred while adding a custom stamp.');
+      }
+    });
+
+    this.addCommand({
+      id: 'insert-historical-block-stamp',
+      name: 'Insert custom block stamp',
+      editorCallback: () => {
+        try {
+          new CustomStampModal(this.app, this).open();
+        } catch (error) {
+          console.error(error);
+          new Notice('🛑 An error occurred while adding a custom stamp.');
+        }
+      }
     });
 
     this.addCommand({
@@ -24,7 +44,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(blockHeight, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
+          new Notice('🛑 An error occurred while adding the stamp.');
         }
       }
     });
@@ -38,7 +58,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(moscowTime, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
+          new Notice('🛑 An error occurred while adding the stamp.');
         }	
       }
     });
@@ -52,20 +72,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(moscowTimeAtBlockHeight, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
-        }
-      }
-    });
-
-    this.addCommand({
-      id: 'insert-historical-block-stamp',
-      name: 'Insert custom block stamp',
-      editorCallback: () => {
-        try {
-          new CustomStampModal(this.app, this).open();
-        } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t open custom block stamp modal', 10000);
+          new Notice('🛑 An error occurred while adding the stamp.');
         }
       }
     });
@@ -79,12 +86,10 @@ export default class BbsPlugin extends Plugin {
           this.replaceStampPlaceholders(activeFile as TFile);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t replace stamp placeholders', 10000);
+          new Notice('🛑 An error occurred while replacing stamp placeholders.');
         }
       }
     });
-
-    this.addSettingTab(new BbsSettingTab(this.app, this));
 
     this.app.workspace.onLayoutReady(() => {
       this.app.vault.on('create', (file: TFile) => {
@@ -92,7 +97,7 @@ export default class BbsPlugin extends Plugin {
           this.replaceStampPlaceholders(file);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error occurred – Couldn\'t replace stamp placeholders', 10000);
+          new Notice('🛑 An error occurred while replacing stamp placeholders.');
         }
       })
     })
