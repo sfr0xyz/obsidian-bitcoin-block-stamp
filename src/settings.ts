@@ -47,7 +47,7 @@ export class BbsSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Block explorer')
-      .setDesc('Set block explorer for block height links')
+      .setDesc('Default block explorer for block height links.')
       .addDropdown(dropdown => dropdown
         .addOption('', 'None')
         .addOption('mempool-space', 'Mempool.space')
@@ -64,7 +64,7 @@ export class BbsSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('Block height format')
-      .setDesc('Set thousands separator')
+      .setDesc('Thousands separator.')
       .addDropdown(dropdown => dropdown
         .addOption('plain', 'Plain (840000)')
         .addOption('comma', 'Comma (840,000)')
@@ -81,7 +81,7 @@ export class BbsSettingTab extends PluginSettingTab {
     
     new Setting(containerEl)
       .setName('Moscow time format')
-      .setDesc('Set time format separator')
+      .setDesc('Time format separator.')
       .addDropdown(dropdown => dropdown
         .addOption('plain', 'Plain (1566)')
         .addOption('colon', 'Colon (15:66)')
@@ -93,13 +93,15 @@ export class BbsSettingTab extends PluginSettingTab {
         })
       )
     
-    new Setting(containerEl).setName('Stamp Placeholders').setHeading()
-      .setDesc('');
+    new Setting(containerEl)
+      .setName('Stamp placeholders').setHeading()
+      .setDesc('Placeholders are replaced with the current stamp when you create a new note or when you use the "Replace stamp placeholder" command.');
+
     new Setting(containerEl)
       .setName('Block height placeholder')
-      .setDesc('')
+      .setDesc('Default: {{blockheight}}')
       .addText(text => text
-        .setPlaceholder('{{blockheight}}')
+        //.setPlaceholder('{{blockheight}}')
         .setValue(this.plugin.settings.placeholders.blockHeight)
         .onChange(async blockHeightPlaceholder => {
           this.plugin.settings.placeholders.blockHeight = blockHeightPlaceholder;
@@ -108,9 +110,9 @@ export class BbsSettingTab extends PluginSettingTab {
       )
     new Setting(containerEl)
       .setName('Moscow time placeholder')
-      .setDesc('')
+      .setDesc('Default: {{moscowtime}}')
       .addText(text => text
-        .setPlaceholder('{{moscowtime}}')
+        //.setPlaceholder('{{moscowtime}}')
         .setValue(this.plugin.settings.placeholders.moscowTime)
         .onChange(async moscowTimePlaceholder => {
           this.plugin.settings.placeholders.moscowTime = moscowTimePlaceholder;
@@ -119,9 +121,9 @@ export class BbsSettingTab extends PluginSettingTab {
       )
     new Setting(containerEl)
       .setName('Moscow time @ block height placeholder')
-      .setDesc('')
+      .setDesc('Default: {{moscowtime@blockheight}}')
       .addText(text => text
-        .setPlaceholder('{{moscowtime@blockheight}}')
+        //.setPlaceholder('{{moscowtime@blockheight}}')
         .setValue(this.plugin.settings.placeholders.moscowTimeAtBlockHeight)
         .onChange(async moscowTimeAtBlockHeightPlaceholder => {
           this.plugin.settings.placeholders.moscowTimeAtBlockHeight = moscowTimeAtBlockHeightPlaceholder;
