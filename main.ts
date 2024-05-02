@@ -120,8 +120,8 @@ export default class BbsPlugin extends Plugin {
     const stamp = new Stamp();
     replacements = {
       [this.settings.placeholders.blockHeight]: await stamp.blockHeight(this.settings.formats.blockHeight, this.settings.blockExplorer),
-      [this.settings.placeholders.blockHeight]: await stamp.moscowTime(this.settings.formats.moscowTime),
-      [this.settings.placeholders.blockHeight]: await stamp.moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer)
+      [this.settings.placeholders.moscowTime]: await stamp.moscowTime(this.settings.formats.moscowTime),
+      [this.settings.placeholders.moscowTimeAtBlockHeight]: await stamp.moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer)
     }
 
     replacePlaceholders(this.app.vault, file, replacements);
