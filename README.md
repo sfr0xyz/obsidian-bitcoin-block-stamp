@@ -4,7 +4,7 @@
 
 Stamp your notes with the Bitcoin block height and Moscow time. Add the latest stamp or the stamp for any time in the past up to the Genesis block.
 
-<div align="center"> <!-- TODO: update demo image -->
+<div align="center">
   <img src="./docs/bbs-demo.png" alt="BBS Demo" width="88%">
 </div>
 
