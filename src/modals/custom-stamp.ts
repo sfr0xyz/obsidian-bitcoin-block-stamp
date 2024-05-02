@@ -108,11 +108,11 @@ export class CustomStampModal extends Modal {
       }
     };
 
-    contentEl.createEl('h3', {text: 'Custom block stamp'});
+    contentEl.createEl('h3', {text: 'Bitcoin block stamp'});
 
     const datetimeSetting = new Setting(contentEl)
       .setName('Date & time')
-      .setDesc('Date and time of your stamp.  The block closest to the time stamp entered will be stamped.');
+      .setDesc('Date and time of your stamp. The block closest to the time stamp entered will be stamped.');
     setDatetimeSetting();
 
     const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });

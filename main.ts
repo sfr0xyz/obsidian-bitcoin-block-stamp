@@ -13,7 +13,7 @@ export default class BbsPlugin extends Plugin {
 
     this.addSettingTab(new BbsSettingTab(this.app, this));
 
-    this.addRibbonIcon('bitcoin', 'Insert custom Bitcoin block stamp', () => {
+    this.addRibbonIcon('bitcoin', 'Insert Bitcoin block stamp', () => {
       try {
         new CustomStampModal(this.app, this).open();
       } catch (error) {
