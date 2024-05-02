@@ -2,7 +2,7 @@ import { App, Modal, Setting, MarkdownView, moment, Notice } from 'obsidian';
 import BbsPlugin from 'main';
 import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat, StampKind, UnixTimestamp } from '@utils/types';
 import { Stamp } from '@src/stamp';
-import { insertAtCursor, isValidDatetime, updateDateTimeOutput } from '@utils/utils';
+import { insertAtCursor, isValidDatetime, updateDatetimeOutput, currentUnixtime } from '@utils/utils';
 import { DATETIME_INPUT_FORMAT, DATETIME_OUTPUT_FORMAT } from '@utils/constants';
 
 export class CustomStampModal extends Modal {
@@ -21,35 +21,31 @@ export class CustomStampModal extends Modal {
   
   onOpen() {
     const { contentEl } = this;
+    this.unixTimestamp = currentUnixtime();
     this.stampKind = 'block-height' as StampKind;
     this.blockHeightFormat = this.plugin.settings.formats.blockHeight;
     this.moscowTimeFormat = this.plugin.settings.formats.moscowTime;
     this.blockExplorer = this.plugin.settings.blockExplorer;
-    
-    const currentDatetime = () => { 
-      const current = moment().format(DATETIME_INPUT_FORMAT);
-      this.unixTimestamp = moment(current, DATETIME_INPUT_FORMAT).format('X') as UnixTimestamp;
-      return current;
-    };
 
-    const setDateTimeSetting = () => {
-      dateTimeSetting
+    const setDatetimeSetting = () => {
+      datetimeSetting
         .addMomentFormat(momentFormat => momentFormat
           .setPlaceholder(DATETIME_INPUT_FORMAT)
           .setDefaultFormat(DATETIME_INPUT_FORMAT)
-          .setValue(currentDatetime())
+          .setValue(moment(this.unixTimestamp, 'X').format(DATETIME_INPUT_FORMAT))
           .onChange(datetime => {
             this.unixTimestamp = moment(datetime, DATETIME_INPUT_FORMAT).format('X') as UnixTimestamp;
-            updateDateTimeOutput(this.unixTimestamp, datetimeOutput, datetimeDate, datetimeError);
+            updateDatetimeOutput(this.unixTimestamp, datetimeOutput, datetimeDate, datetimeError);
           })
         )
         .addButton(button => button
           .setButtonText('Now')
           .setCta()
           .onClick(() => {
-            dateTimeSetting.clear();
-            setDateTimeSetting();
-            updateDateTimeOutput(this.unixTimestamp, datetimeOutput, datetimeDate, datetimeError);
+            datetimeSetting.clear();
+            this.unixTimestamp = currentUnixtime();
+            setDatetimeSetting();
+            updateDatetimeOutput(this.unixTimestamp, datetimeOutput, datetimeDate, datetimeError);
           })
         );
     };
@@ -115,10 +111,10 @@ export class CustomStampModal extends Modal {
 
     contentEl.createEl('h3', {text: 'Custom block stamp'});
 
-    const dateTimeSetting = new Setting(contentEl)
+    const datetimeSetting = new Setting(contentEl)
       .setName('Date & time')
       .setDesc(`Date and time for which the closest block is stamped`);
-    setDateTimeSetting();
+    setDatetimeSetting();
 
     const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });
     const datetimeDate = datetimeOutput.createEl('div');

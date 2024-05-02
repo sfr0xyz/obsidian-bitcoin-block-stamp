@@ -36,11 +36,15 @@ export function isValidDatetime (unixTimestamp: UnixTimestamp) {
   return {isValid, problemMessage};
 }
 
-export function updateDateTimeOutput (unixTimestamp: UnixTimestamp, datetimeOutput: HTMLDivElement, datetimeDate: HTMLDivElement, datetimeError: HTMLDivElement) {
+export function updateDatetimeOutput (unixTimestamp: UnixTimestamp, datetimeOutput: HTMLDivElement, datetimeDate: HTMLDivElement, datetimeError: HTMLDivElement) {
   const { isValid, problemMessage } = isValidDatetime(unixTimestamp);
             
   datetimeOutput.toggleClass('datetimeOutput-error', !isValid);
   datetimeDate.toggleClass('strikethrough', !isValid);
   datetimeDate.setText(moment(unixTimestamp, 'X').format(DATETIME_OUTPUT_FORMAT));
   datetimeError.setText(problemMessage);
+}
+
+export function currentUnixtime (): UnixTimestamp { 
+  return moment().format('X') as UnixTimestamp;
 }
