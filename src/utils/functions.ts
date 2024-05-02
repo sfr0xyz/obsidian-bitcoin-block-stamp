@@ -7,7 +7,6 @@ export function insertAtCursor (str: string, editor: Editor) {
 }
 
 export async function replacePlaceholders (vault: Vault, file: TFile, replacements: Replacements) {
-  console.log('replace placeholders', replacements);
   let fileContent = await vault.read(file);
 
   for (const find in replacements) {

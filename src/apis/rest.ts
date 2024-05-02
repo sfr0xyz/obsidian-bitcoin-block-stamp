@@ -24,7 +24,6 @@ export class MempoolSpaceApi extends RestApi {
 
     const apiUrl = this.baseApiUrl + endpoint;
     const json = await this.getJson(apiUrl);
-    console.log(json);
     const data = (unixTimestamp) ? json.prices[0] : json;
     
     return data[fiat];
