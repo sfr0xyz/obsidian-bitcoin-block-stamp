@@ -2,7 +2,7 @@ import { Editor, Plugin, TFile, Notice } from 'obsidian';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from '@src/settings';
 import { CustomStampModal } from '@modals/custom-stamp';
 import { Stamp } from '@src/stamp';
-import { insertAtCursor, replacePlaceholders } from '@utils/utils';
+import { insertAtCursor, replacePlaceholders } from '@utils/functions';
 import { Replacements } from '@utils/types';
 
 export default class BbsPlugin extends Plugin {

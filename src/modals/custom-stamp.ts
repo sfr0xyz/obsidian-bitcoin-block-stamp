@@ -2,7 +2,7 @@ import { App, Modal, Setting, MarkdownView, moment, Notice } from 'obsidian';
 import BbsPlugin from 'main';
 import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat, StampKind, UnixTimestamp } from '@utils/types';
 import { Stamp } from '@src/stamp';
-import { insertAtCursor, isValidDatetime, updateDatetimeOutput, currentUnixtime } from '@utils/utils';
+import { insertAtCursor, isValidDatetime, updateDatetimeOutput, currentUnixtime } from '@utils/functions';
 import { DATETIME_INPUT_FORMAT, DATETIME_OUTPUT_FORMAT } from '@utils/constants';
 
 export class CustomStampModal extends Modal {
@@ -120,7 +120,7 @@ export class CustomStampModal extends Modal {
     const datetimeDate = datetimeOutput.createEl('div');
     const datetimeError = datetimeOutput.createEl('div');
     datetimeDate.setText(moment(this.unixTimestamp, 'X').format(DATETIME_OUTPUT_FORMAT));
-    
+
     const settingsEl = contentEl.createEl('div', { cls: 'custom-stamp-settings' });
     setSettings();
     
