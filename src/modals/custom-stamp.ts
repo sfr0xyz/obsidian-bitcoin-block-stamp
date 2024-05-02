@@ -16,7 +16,6 @@ export class CustomStampModal extends Modal {
   constructor(app: App, plugin: BbsPlugin) {
     super(app);
     this.plugin = plugin;
-    
   }
   
   onOpen() {
