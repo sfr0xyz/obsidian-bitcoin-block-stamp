@@ -113,17 +113,14 @@ export class CustomStampModal extends Modal {
 
     const datetimeSetting = new Setting(contentEl)
       .setName('Date & time')
-      .setDesc(`Date and time for which the closest block is stamped`);
+      .setDesc('Date and time of your stamp.  The block closest to the time stamp entered will be stamped.');
     setDatetimeSetting();
 
     const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });
     const datetimeDate = datetimeOutput.createEl('div');
     const datetimeError = datetimeOutput.createEl('div');
     datetimeDate.setText(moment(this.unixTimestamp, 'X').format(DATETIME_OUTPUT_FORMAT));
-
     
-
-
     const settingsEl = contentEl.createEl('div', { cls: 'custom-stamp-settings' });
     setSettings();
     
