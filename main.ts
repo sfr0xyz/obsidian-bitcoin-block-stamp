@@ -24,7 +24,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(blockHeight, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t insert stamp', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
         }
       }
     });
@@ -38,7 +38,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(moscowTime, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t insert stamp', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
         }	
       }
     });
@@ -52,7 +52,7 @@ export default class BbsPlugin extends Plugin {
           insertAtCursor(moscowTimeAtBlockHeight, editor);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t insert stamp', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t insert stamp', 10000);
         }
       }
     });
@@ -65,7 +65,7 @@ export default class BbsPlugin extends Plugin {
           new CustomStampModal(this.app, this).open();
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t open custom block stamp modal', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t open custom block stamp modal', 10000);
         }
       }
     });
@@ -79,7 +79,7 @@ export default class BbsPlugin extends Plugin {
           this.replaceStampPlaceholders(activeFile as TFile);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t replace stamp placeholders', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t replace stamp placeholders', 10000);
         }
       }
     });
@@ -92,7 +92,7 @@ export default class BbsPlugin extends Plugin {
           this.replaceStampPlaceholders(file);
         } catch (error) {
           console.error(error);
-          new Notice('🛑 An error ocurred – Couldn\'t replace stamp placeholders', 10000);
+          new Notice('🛑 An error occurred – Couldn\'t replace stamp placeholders', 10000);
         }
       })
     })
