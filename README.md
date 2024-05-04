@@ -75,11 +75,11 @@ You should now have `main.js`, `styles.css`, and `manifest.json` in `<VAULT_DIRE
 
 Thank you for using this plugin!
 
-Your feedback is very much appreciated. If you have a feature idea/request or found a bug, you can tag me on [nostr][me-njump] or open an [issue on GitHub][gh-issues].
+Your feedback is very much appreciated. If you have a feature idea/request or found a bug, you can tag me over [nostr][me-njump] or open an [issue on GitHub][gh-issues].
 
-If you like this plugin and want to support me, you can send me Sats via the Bitcoin Lightning Network. Visit my [Alby page][me-alby] or zap me on [nostr][me-njump].
+If you like this plugin and want to support me, you can send me sats via the Bitcoin Lightning Network. Visit my [Alby page][me-alby] or zap me on [nostr][me-njump].
 
-⚡ Lightning Address:
+⚡ Lightning address:
 
 ```plaintext
 sefiro@getalby.com
@@ -88,7 +88,7 @@ sefiro@getalby.com
 ---
 
 <div align="center">
-Find me on nostr <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp">@sefiro</a>
+Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp">@sefiro</a>
 <p><code>npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp</code></p>
 </div>
 
