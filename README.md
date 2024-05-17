@@ -75,9 +75,9 @@ You should now have `main.js`, `styles.css`, and `manifest.json` in `<VAULT_DIRE
 
 Thank you for using this plugin!
 
-Your feedback is very much appreciated. If you have a feature idea/request or found a bug, you can tag me over [nostr][me-njump] or open an [issue on GitHub][gh-issues].
+Your feedback is very much appreciated. If you have a feature idea/request or found a bug, tag me over [nostr][me-njump] or open an [issue on GitHub][gh-issues].
 
-If you like this plugin and want to support me, you can send me sats via the Bitcoin Lightning Network. Visit my [Alby page][me-alby] or zap me on [nostr][me-njump].
+If you like this plugin and want to support me, you can send me sats via the Bitcoin Lightning Network. Check out my [Alby page][me-alby].
 
 ⚡ Lightning address:
 
