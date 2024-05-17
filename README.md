@@ -1,6 +1,6 @@
 # Bitcoin Block Stamp for Obsidian
 
-![Version][badge-version] ![License][badge-license] ![Obsidian downloads][badge-downloads]
+[![Version][badge-version]][gh-latest] [![License][badge-license]][gh-license] [![Obsidian downloads][badge-downloads]][obsidian-plugin]
 
 Stamp your notes with the Bitcoin block height and Moscow time. Add the latest stamp or the stamp for any time in the past up to the Genesis block.
 
@@ -95,13 +95,15 @@ Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7t
 [badge-version]:          https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square&color=007ec6
 [badge-license]:          https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square&color=5D8211
 [badge-downloads]:        https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24%5B%22bitcoin-block-stamp%22%5D.downloads&style=flat-square&logo=obsidian&label=downloads&color=7c3aed
+[obsidian-plugin]:        https://obsidian.md/plugins?id=bitcoin-block-stamp
+[gh-latest]:              https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest
+[gh-license]:             https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/blob/master/LICENSE
+[gh-issues]:              https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/issues
 [moscowtime]:             https://archive.is/I8oGK
 [moscowtime-bot-njump]:   https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta
 [mempool-space]:          https://mempool.space
 [mempool-space-api]:      https://mempool.space/docs/api/rest
 [blockstream-info]:       https://blockstream.info
 [timechaincalendar-com]:  https://timechaincalendar.com
-[gh-issues]:              https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/issues
-[gh-latest]:              https://github.com/sfr0xyz/obsidian-bitcoin-block-stamp/releases/latest
 [me-njump]:               https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp
 [me-alby]:                https://getalby.com/p/sefiro
