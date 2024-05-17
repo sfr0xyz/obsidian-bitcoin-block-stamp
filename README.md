@@ -95,7 +95,7 @@ Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7t
 [badge-version]:          https://img.shields.io/github/manifest-json/v/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square&color=007ec6
 [badge-license]:          https://img.shields.io/github/license/sfr0xyz/obsidian-bitcoin-block-stamp?style=flat-square&color=5D8211
 [badge-downloads]:        https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fobsidianmd%2Fobsidian-releases%2Fmaster%2Fcommunity-plugin-stats.json&query=%24%5B%22bitcoin-block-stamp%22%5D.downloads&style=flat-square&logo=obsidian&label=downloads&color=7c3aed
-[moscowtime]:             https://thebitcoinmanual.com/btc-culture/glossary/moscow-time
+[moscowtime]:             https://archive.is/I8oGK
 [moscowtime-bot-njump]:   https://njump.me/npub1030jfcwftah37a242jv0qqvmuyje5ew8tt59rs3477c4e8ugurhqzdwcta
 [mempool-space]:          https://mempool.space
 [mempool-space-api]:      https://mempool.space/docs/api/rest
