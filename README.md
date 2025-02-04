@@ -77,18 +77,21 @@ Thank you for using this plugin!
 
 Your feedback is very much appreciated. If you have a feature idea/request or found a bug, tag me over [nostr][me-njump] or open an [issue on GitHub][gh-issues].
 
-If you like this plugin and want to support me, you can send me sats via the Bitcoin Lightning Network. Check out my [Alby page][me-alby].
+If you like this plugin and want to support me, you can [buy me a coffee][buy-me-a-coffee] or send me sats via the Bitcoin Lightning Network. Check out my [Alby page][me-alby].
 
 ⚡ Lightning address:
 
 ```plaintext
 sefiro@getalby.com
 ```
+<div align="center">
+<a href="https://www.buymeacoffee.com/sefiro" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"></a>
+</div>
 
 ---
 
 <div align="center">
-Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp" target="_blank">sefiro@sfr0.xyz</a>
+Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp" target="_blank">sefiro@stacker.news</a>
 <p><code>npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp</code></p>
 </div>
 
@@ -107,3 +110,4 @@ Nostr: <a href="https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7t
 [timechaincalendar-com]:  https://timechaincalendar.com
 [me-njump]:               https://njump.me/npub19a6x8frkkn2660fw0flz74a7qg8c2jxk5v9p2rsh7tv5e6ftsq3sav63vp
 [me-alby]:                https://getalby.com/p/sefiro
+[buy-me-a-coffee]:        https://www.buymeacoffee.com/sefiro
