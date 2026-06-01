@@ -14,6 +14,7 @@
       "DOM",
       "ES2018"
     ],
+    "types": ["node"],
     "paths": {
       "main": ["./main.ts"],
       "@utils/*": ["./src/utils/*"],

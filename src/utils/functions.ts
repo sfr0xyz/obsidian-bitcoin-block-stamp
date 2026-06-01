@@ -1,6 +1,7 @@
 import { Editor, TFile, Vault } from 'obsidian';
 import { moment } from '@utils/moment';
 import { Replacements, UnixTimestamp } from '@utils/types';
+import { replacePlaceholderText } from '@utils/placeholders';
 import { DATETIME_OUTPUT_FORMAT, GENESIS_BLOCK_TIMESTAMP } from '@utils/constants';
 
 export function insertAtCursor (str: string, editor: Editor) {
@@ -10,16 +11,9 @@ export function insertAtCursor (str: string, editor: Editor) {
 export async function replacePlaceholders (vault: Vault, file: TFile, replacements: Replacements) {
   let fileContent = await vault.read(file);
 
-  for (const find in replacements) {
-    const replace: string = replacements[find];
-    fileContent = fileContent.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-  }
+  fileContent = replacePlaceholderText(fileContent, replacements);
 
   await vault.modify(file, fileContent);
-}
-
-function escapeRegExp (str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 export function isValidDatetime (unixTimestamp: UnixTimestamp) {

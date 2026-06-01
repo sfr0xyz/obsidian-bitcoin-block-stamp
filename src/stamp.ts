@@ -1,5 +1,6 @@
 import { MempoolSpaceApi } from '@apis/rest';
-import { BLOCK_EXPLORERS, SEPARATORS } from '@utils/constants';
+import { BLOCK_EXPLORERS } from '@utils/constants';
+import { formatBlockHeight, formatMoscowTime } from '@utils/format';
 import { UnixTimestamp, Api, BlockId, MoscowTimeFormat, BlockHeightFormat, BlockExplorer } from '@utils/types';
 
 export class Stamp {
@@ -14,8 +15,7 @@ export class Stamp {
   async blockHeight(format: BlockHeightFormat='plain', blockExplorer: BlockExplorer=''): Promise<string> {
     const block: BlockId = await this.getBlock();
 
-    let sBlockHeight: string = block.height.toLocaleString('en-US')
-      .replace(/,/g, SEPARATORS[format]);
+    let sBlockHeight: string = formatBlockHeight(block.height, format);
 
     if (blockExplorer) {
       sBlockHeight = `[${sBlockHeight}](${BLOCK_EXPLORERS[blockExplorer]})`
@@ -28,15 +28,7 @@ export class Stamp {
 
   async moscowTime(format: MoscowTimeFormat='plain'): Promise<string> {
     const moscowTime: number = await this.getMoscowTime();
-    const separator = SEPARATORS[format]
-    const sMoscowTime: string = moscowTime.toString()
-			.padStart((separator) ? 4 : 0, '0')
-			.split('').reverse().join('')
-			.split(/(\d{2})/g)
-			.filter((v: string) => v !== '')
-			.join(separator)
-			.split('').reverse().join('');
-    return sMoscowTime
+    return formatMoscowTime(moscowTime, format);
   }
 
   async moscowTimeAtBlockHeight (moscowTimeFormat: MoscowTimeFormat='plain', blockHeightFormat: BlockHeightFormat='plain', blockExplorer: BlockExplorer=''): Promise<string> {

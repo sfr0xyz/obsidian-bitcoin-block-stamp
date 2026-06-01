@@ -1,5 +1,6 @@
 import { Editor, Plugin, TAbstractFile, TFile, Notice } from 'obsidian';
-import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from '@src/settings';
+import { BbsSettingTab } from '@src/settings';
+import { BbsPluginSettings, normalizeSettings } from '@src/settings-data';
 import { CustomStampModal } from '@modals/custom-stamp';
 import { Stamp } from '@src/stamp';
 import { insertAtCursor, replacePlaceholders } from '@utils/functions';
@@ -112,7 +113,8 @@ export default class BbsPlugin extends Plugin {
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    this.settings = normalizeSettings(await this.loadData());
+    await this.saveSettings();
   }
 
   async saveSettings() {

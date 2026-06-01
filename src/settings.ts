@@ -1,36 +1,8 @@
 import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat } from '@utils/types';
-import BbsPlugin from 'main';
+import type BbsPlugin from 'main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
-
-export interface StampFormats {
-  blockHeight: BlockHeightFormat,
-  moscowTime: MoscowTimeFormat
-}
-
-export interface StampPlaceholders {
-  blockHeight: string,
-  moscowTime: string,
-  moscowTimeAtBlockHeight: string
-}
-
-export interface BbsPluginSettings {
-  blockExplorer: BlockExplorer
-  formats: StampFormats
-  placeholders: StampPlaceholders
-}
-
-export const DEFAULT_SETTINGS: BbsPluginSettings = {
-  blockExplorer: '',
-  formats: {
-    blockHeight: 'plain',
-    moscowTime: 'plain'
-  },
-  placeholders: {
-    blockHeight: '{{blockheight}}',
-    moscowTime: '{{moscowtime}}',
-    moscowTimeAtBlockHeight: '{{moscowtime@blockheight}}'
-  }
-}
+export { DEFAULT_SETTINGS, normalizeSettings } from '@src/settings-data';
+export type { BbsPluginSettings, StampFormats, StampPlaceholders } from '@src/settings-data';
 
 export class BbsSettingTab extends PluginSettingTab {
   plugin: BbsPlugin;
