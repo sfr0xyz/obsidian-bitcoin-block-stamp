@@ -33,7 +33,7 @@ export class Stamp {
 			.padStart((separator) ? 4 : 0, '0')
 			.split('').reverse().join('')
 			.split(/(\d{2})/g)
-			.filter(v => v !== '')
+			.filter((v: string) => v !== '')
 			.join(separator)
 			.split('').reverse().join('');
     return sMoscowTime

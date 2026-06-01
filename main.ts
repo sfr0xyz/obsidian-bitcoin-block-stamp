@@ -6,7 +6,7 @@ import { insertAtCursor, replacePlaceholders } from '@utils/functions';
 import { Replacements } from '@utils/types';
 
 export default class BbsPlugin extends Plugin {
-  settings: BbsPluginSettings;
+  settings!: BbsPluginSettings;
 
   async onload() {
     await this.loadSettings();

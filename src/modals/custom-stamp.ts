@@ -1,4 +1,5 @@
-import { App, Modal, Setting, MarkdownView, moment, Notice } from 'obsidian';
+import { App, Modal, Setting, MarkdownView, Notice } from 'obsidian';
+import { moment } from '@utils/moment';
 import BbsPlugin from 'main';
 import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat, StampKind, UnixTimestamp } from '@utils/types';
 import { Stamp } from '@src/stamp';
@@ -7,11 +8,11 @@ import { DATETIME_INPUT_FORMAT, DATETIME_OUTPUT_FORMAT } from '@utils/constants'
 
 export class CustomStampModal extends Modal {
   plugin: BbsPlugin
-  unixTimestamp: UnixTimestamp
-  stampKind: StampKind
-  blockHeightFormat: BlockHeightFormat
-  moscowTimeFormat: MoscowTimeFormat
-  blockExplorer: BlockExplorer
+  unixTimestamp!: UnixTimestamp
+  stampKind!: StampKind
+  blockHeightFormat!: BlockHeightFormat
+  moscowTimeFormat!: MoscowTimeFormat
+  blockExplorer!: BlockExplorer
   
   constructor(app: App, plugin: BbsPlugin) {
     super(app);
@@ -57,8 +58,8 @@ export class CustomStampModal extends Modal {
           .addOption('moscow-time', 'Moscow time')
           .addOption('moscow-time_at_block-height', 'Moscow time @ block height')
           .setValue(this.stampKind)
-          .onChange((stampKind: StampKind) => {
-            this.stampKind = stampKind;
+          .onChange(value => {
+            this.stampKind = value as StampKind;
             settingsEl.empty();
             setSettings();
           })
@@ -72,8 +73,8 @@ export class CustomStampModal extends Modal {
             .addOption('colon', 'Colon (15:66)')
             .addOption('period', 'Period (15.66)')
             .setValue(this.moscowTimeFormat)
-            .onChange((moscowTimeFormat: MoscowTimeFormat) => {
-              this.moscowTimeFormat = moscowTimeFormat;
+            .onChange(value => {
+              this.moscowTimeFormat = value as MoscowTimeFormat;
             })
           );
       }
@@ -88,8 +89,8 @@ export class CustomStampModal extends Modal {
             .addOption('apostrophe', 'Apostrophe (840\'000)')
             .addOption('underscore', 'Underscore (840_000)')
             .setValue(this.blockHeightFormat)
-            .onChange((blockHeightFormat: BlockHeightFormat) => {
-              this.blockHeightFormat = blockHeightFormat;
+            .onChange(value => {
+              this.blockHeightFormat = value as BlockHeightFormat;
             })
           );
         
@@ -101,8 +102,8 @@ export class CustomStampModal extends Modal {
             .addOption('blockstream-info', 'Blockstream.info')
             .addOption('timechaincalendar-com', 'TimechainCalendar.com')
             .setValue(this.blockExplorer)
-            .onChange((blockExplorer: BlockExplorer) => {
-              this.blockExplorer = blockExplorer;
+            .onChange(value => {
+              this.blockExplorer = value as BlockExplorer;
             })
           );
       }

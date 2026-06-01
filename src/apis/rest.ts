@@ -1,4 +1,5 @@
-import { requestUrl, moment } from 'obsidian';
+import { requestUrl } from 'obsidian';
+import { moment } from '@utils/moment';
 import { UnixTimestamp, FiatCurrency, BlockId } from '@utils/types';
 
 export class RestApi {

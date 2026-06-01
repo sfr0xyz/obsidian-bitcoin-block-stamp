@@ -1,4 +1,5 @@
-import { Editor, TFile, Vault, moment } from 'obsidian';
+import { Editor, TFile, Vault } from 'obsidian';
+import { moment } from '@utils/moment';
 import { Replacements, UnixTimestamp } from '@utils/types';
 import { DATETIME_OUTPUT_FORMAT, GENESIS_BLOCK_TIMESTAMP } from '@utils/constants';
 
