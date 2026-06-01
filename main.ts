@@ -17,8 +17,7 @@ export default class BbsPlugin extends Plugin {
       try {
         new CustomStampModal(this.app, this).open();
       } catch (error) {
-        console.error(error);
-        new Notice('🛑 An error occurred while adding a custom stamp.');
+        this.showErrorNotice('Could not open the custom stamp modal', error);
       }
     });
 
@@ -29,8 +28,7 @@ export default class BbsPlugin extends Plugin {
         try {
           new CustomStampModal(this.app, this).open();
         } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while adding a custom stamp.');
+          this.showErrorNotice('Could not open the custom stamp modal', error);
         }
       }
     });
@@ -43,8 +41,7 @@ export default class BbsPlugin extends Plugin {
           const blockHeight: string = await new Stamp().blockHeight(this.settings.formats.blockHeight, this.settings.blockExplorer);
           insertAtCursor(blockHeight, editor);
         } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while adding the stamp.');
+          this.showErrorNotice('Could not insert current block height', error);
         }
       }
     });
@@ -57,8 +54,7 @@ export default class BbsPlugin extends Plugin {
           const moscowTime: string = await new Stamp().moscowTime(this.settings.formats.moscowTime);
           insertAtCursor(moscowTime, editor);
         } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while adding the stamp.');
+          this.showErrorNotice('Could not insert current Moscow time', error);
         }	
       }
     });
@@ -71,8 +67,7 @@ export default class BbsPlugin extends Plugin {
           const moscowTimeAtBlockHeight: string = await new Stamp().moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer);
           insertAtCursor(moscowTimeAtBlockHeight, editor);
         } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while adding the stamp.');
+          this.showErrorNotice('Could not insert current Moscow time @ block height', error);
         }
       }
     });
@@ -90,8 +85,7 @@ export default class BbsPlugin extends Plugin {
 
           await this.replaceStampPlaceholders(activeFile);
         } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while replacing stamp placeholders.');
+          this.showErrorNotice('Could not replace stamp placeholders', error);
         }
       }
     });
@@ -106,8 +100,7 @@ export default class BbsPlugin extends Plugin {
           try {
             await this.replaceStampPlaceholders(file);
           } catch (error) {
-            console.error(error);
-            new Notice('🛑 An error occurred while replacing stamp placeholders.');
+            this.showErrorNotice('Could not replace stamp placeholders in the new file', error);
           }
         })
       );
@@ -135,6 +128,15 @@ export default class BbsPlugin extends Plugin {
       [this.settings.placeholders.moscowTimeAtBlockHeight]: await stamp.moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer)
     }
 
-    replacePlaceholders(this.app.vault, file, replacements);
+    await replacePlaceholders(this.app.vault, file, replacements);
+  }
+
+  private showErrorNotice (action: string, error: unknown) {
+    console.error(error);
+    new Notice(`🛑 ${action}: ${this.getErrorMessage(error)}`);
+  }
+
+  private getErrorMessage (error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
   }
 }

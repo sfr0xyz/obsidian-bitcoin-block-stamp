@@ -132,26 +132,30 @@ export class CustomStampModal extends Modal {
           const view = this.app.workspace.getActiveViewOfType(MarkdownView);
           const { isValid, problemMessage } = isValidDatetime(this.unixTimestamp);
           if (view && isValid) {
-            switch (this.stampKind) {
-              case 'block-height': {
-                const blockHeight = await new Stamp(this.unixTimestamp).blockHeight(this.blockHeightFormat, this.blockExplorer);
-                insertAtCursor(blockHeight, view.editor);
-                break;
+            try {
+              switch (this.stampKind) {
+                case 'block-height': {
+                  const blockHeight = await new Stamp(this.unixTimestamp).blockHeight(this.blockHeightFormat, this.blockExplorer);
+                  insertAtCursor(blockHeight, view.editor);
+                  break;
+                }
+                case 'moscow-time': {
+                  const moscowTime: string = await new Stamp(this.unixTimestamp).moscowTime(this.moscowTimeFormat);
+                  insertAtCursor(moscowTime, view.editor);
+                  break;
+                }
+                case 'moscow-time_at_block-height': {
+                  const moscowTimeAtBlockHeight: string = await new Stamp(this.unixTimestamp).moscowTimeAtBlockHeight(this.moscowTimeFormat, this.blockHeightFormat, this.blockExplorer);
+                  insertAtCursor(moscowTimeAtBlockHeight, view.editor);
+                  break;
+                }
+                default: {
+                  new Notice('No valid stamp selected!');
+                  break;
+                }
               }
-              case 'moscow-time': {
-                const moscowTime: string = await new Stamp(this.unixTimestamp).moscowTime(this.moscowTimeFormat);
-                insertAtCursor(moscowTime, view.editor);
-                break;
-              }
-              case 'moscow-time_at_block-height': {
-                const moscowTimeAtBlockHeight: string = await new Stamp(this.unixTimestamp).moscowTimeAtBlockHeight(this.moscowTimeFormat, this.blockHeightFormat, this.blockExplorer);
-                insertAtCursor(moscowTimeAtBlockHeight, view.editor);
-                break;
-              }
-              default: {
-                new Notice('No valid stamp selected!');
-                break;
-              }
+            } catch (error) {
+              this.showErrorNotice('Could not insert custom stamp', error);
             }
           } else {
             if (problemMessage) {
@@ -169,5 +173,14 @@ export class CustomStampModal extends Modal {
   onClose() {
     const { contentEl } = this;
     contentEl.empty();
+  }
+
+  private showErrorNotice (action: string, error: unknown) {
+    console.error(error);
+    new Notice(`🛑 ${action}: ${this.getErrorMessage(error)}`);
+  }
+
+  private getErrorMessage (error: unknown): string {
+    return error instanceof Error ? error.message : String(error);
   }
 }
