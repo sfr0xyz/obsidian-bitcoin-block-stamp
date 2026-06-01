@@ -3,8 +3,6 @@ import type BbsPlugin from 'main';
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import { DEFAULT_SETTINGS } from '@src/settings-data';
 import { BLOCK_EXPLORER_OPTIONS, BLOCK_HEIGHT_FORMAT_OPTIONS, MOSCOW_TIME_FORMAT_OPTIONS } from '@src/stamp-options';
-export { DEFAULT_SETTINGS, normalizeSettings } from '@src/settings-data';
-export type { BbsPluginSettings, StampFormats, StampPlaceholders } from '@src/settings-data';
 
 export class BbsSettingTab extends PluginSettingTab {
   plugin: BbsPlugin;

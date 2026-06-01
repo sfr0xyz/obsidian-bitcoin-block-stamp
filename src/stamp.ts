@@ -6,7 +6,7 @@ export class Stamp {
   private source: StampSource
   private unixTimestamp?: UnixTimestamp
 
-  constructor (unixTimestamp: UnixTimestamp | undefined, source: StampSource) {
+  constructor (source: StampSource, unixTimestamp?: UnixTimestamp) {
     this.source = source;
     this.unixTimestamp = unixTimestamp;
   }

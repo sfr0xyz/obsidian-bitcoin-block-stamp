@@ -9,14 +9,14 @@ const source: StampSource = {
 };
 
 test('Stamp formats a block height with an optional explorer link', async () => {
-  const stamp = new Stamp(undefined, source);
+  const stamp = new Stamp(source);
 
   equal(await stamp.blockHeight('underscore'), '840_000');
   equal(await stamp.blockHeight('comma', 'mempool-space'), '[840,000](https://mempool.space/block/000abc)');
 });
 
 test('Stamp calculates Moscow time from fiat price', async () => {
-  const stamp = new Stamp(undefined, source);
+  const stamp = new Stamp(source);
 
   equal(await stamp.moscowTime('colon'), '15:63');
 });
@@ -36,7 +36,7 @@ test('Stamp passes timestamps to its source adapter', async () => {
     }
   };
 
-  const stamp = new Stamp(timestamp, timestampSource);
+  const stamp = new Stamp(timestampSource, timestamp);
   await stamp.moscowTimeAtBlockHeight('colon', 'underscore');
 
   equal(blockTimestamp, timestamp);

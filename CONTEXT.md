@@ -22,4 +22,4 @@ A configured marker in a note that is replaced with a generated current stamp.
 
 ## Stamp source
 
-The module interface that provides block and price data used to generate stamps. `MempoolSpaceApi` is the production adapter for this interface.
+The module interface that provides block and price data used to generate stamps. `MempoolSpaceStampSource` is the production adapter for this interface.

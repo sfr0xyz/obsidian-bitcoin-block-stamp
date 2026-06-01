@@ -53,6 +53,6 @@ export class StampGenerator {
   }
 
   private createStamp (unixTimestamp?: UnixTimestamp): Stamp {
-    return new Stamp(unixTimestamp, this.source);
+    return new Stamp(this.source, unixTimestamp);
   }
 }

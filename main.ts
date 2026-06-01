@@ -2,7 +2,7 @@ import { Editor, Plugin, TAbstractFile, TFile, Notice } from 'obsidian';
 import { BbsSettingTab } from '@src/settings';
 import { BbsPluginSettings, normalizeSettings } from '@src/settings-data';
 import { CustomStampModal } from '@modals/custom-stamp';
-import { MempoolSpaceApi } from '@apis/rest';
+import { MempoolSpaceStampSource } from '@apis/mempool-space';
 import { StampGenerator } from '@src/stamp-generator';
 import { insertAtCursor } from '@utils/editor';
 import { replacePlaceholders } from '@utils/vault-placeholders';
@@ -10,7 +10,7 @@ import { showErrorNotice } from '@src/notice';
 
 export default class BbsPlugin extends Plugin {
   settings!: BbsPluginSettings;
-  private stamps = new StampGenerator(new MempoolSpaceApi());
+  private stamps = new StampGenerator(new MempoolSpaceStampSource());
 
   async onload() {
     await this.loadSettings();
