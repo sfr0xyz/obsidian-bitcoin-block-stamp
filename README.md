@@ -38,10 +38,10 @@ You can change them in the plugin settings.
 
 ## Settings
 
-- **Block explorer** — none, [Mempool.space][mempool-space], [Blockstream.info][blockstream-info], or [TimechainCalendar.com][timechaincalendar-com].
-- **Block height format** — `840000`, `840,000`, `840.000`, `840 000`, `840'000`, or `840_000`.
-- **Moscow time format** — `1566`, `15:66`, or `15.66`.
-- **Stamp placeholders** — customize the text replaced by block height, Moscow time, and combined stamps.
+- **Block explorer** - none, [Mempool.space][mempool-space], [Blockstream.info][blockstream-info], or [TimechainCalendar.com][timechaincalendar-com].
+- **Block height format** - `840000`, `840,000`, `840.000`, `840 000`, `840'000`, or `840_000`.
+- **Moscow time format** - `1566`, `15:66`, or `15.66`.
+- **Stamp placeholders** - customize the text replaced by block height, Moscow time, and combined stamps.
 
 ## Installation
 
