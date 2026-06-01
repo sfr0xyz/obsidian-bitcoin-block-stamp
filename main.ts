@@ -1,4 +1,4 @@
-import { Editor, Plugin, TFile, Notice } from 'obsidian';
+import { Editor, Plugin, TAbstractFile, TFile, Notice } from 'obsidian';
 import { BbsPluginSettings, DEFAULT_SETTINGS, BbsSettingTab } from '@src/settings';
 import { CustomStampModal } from '@modals/custom-stamp';
 import { Stamp } from '@src/stamp';
@@ -80,10 +80,15 @@ export default class BbsPlugin extends Plugin {
     this.addCommand({
       id: 'replace-stamp-placeholders',
       name: 'Replace stamp placeholders',
-      callback: () => {
+      callback: async () => {
         try {
           const activeFile = this.app.workspace.getActiveFile();
-          this.replaceStampPlaceholders(activeFile as TFile);
+          if (!activeFile) {
+            new Notice('🛑 No active file to replace stamp placeholders in.');
+            return;
+          }
+
+          await this.replaceStampPlaceholders(activeFile);
         } catch (error) {
           console.error(error);
           new Notice('🛑 An error occurred while replacing stamp placeholders.');
@@ -92,14 +97,20 @@ export default class BbsPlugin extends Plugin {
     });
 
     this.app.workspace.onLayoutReady(() => {
-      this.app.vault.on('create', (file: TFile) => {
-        try {
-          this.replaceStampPlaceholders(file);
-        } catch (error) {
-          console.error(error);
-          new Notice('🛑 An error occurred while replacing stamp placeholders.');
-        }
-      })
+      this.registerEvent(
+        this.app.vault.on('create', async (file: TAbstractFile) => {
+          if (!(file instanceof TFile)) {
+            return;
+          }
+
+          try {
+            await this.replaceStampPlaceholders(file);
+          } catch (error) {
+            console.error(error);
+            new Notice('🛑 An error occurred while replacing stamp placeholders.');
+          }
+        })
+      );
     })
   }
 

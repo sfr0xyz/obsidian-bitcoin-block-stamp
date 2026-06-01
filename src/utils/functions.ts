@@ -11,10 +11,14 @@ export async function replacePlaceholders (vault: Vault, file: TFile, replacemen
 
   for (const find in replacements) {
     const replace: string = replacements[find];
-    fileContent = fileContent.replace(new RegExp(find, 'g'), replace);
+    fileContent = fileContent.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   }
 
-  vault.modify(file, fileContent);
+  await vault.modify(file, fileContent);
+}
+
+function escapeRegExp (str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 export function isValidDatetime (unixTimestamp: UnixTimestamp) {
