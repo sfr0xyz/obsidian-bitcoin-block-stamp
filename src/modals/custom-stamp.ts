@@ -116,56 +116,26 @@ export class CustomStampModal extends Modal {
       .setDesc('Date and time of your stamp. The block closest to the time stamp entered will be stamped.');
     setDatetimeSetting();
 
-    const datetimeOutput = contentEl.createEl('div', { cls: 'datetimeOutput' });
-    const datetimeDate = datetimeOutput.createEl('div');
-    const datetimeError = datetimeOutput.createEl('div');
+    const datetimeOutput = contentEl.createDiv({ cls: 'datetimeOutput' });
+    const datetimeDate = datetimeOutput.createDiv();
+    const datetimeError = datetimeOutput.createDiv();
     datetimeDate.setText(moment(this.unixTimestamp, 'X').format(DATETIME_OUTPUT_FORMAT));
 
-    const settingsEl = contentEl.createEl('div', { cls: 'custom-stamp-settings' });
+    const settingsEl = contentEl.createDiv({ cls: 'custom-stamp-settings' });
     setSettings();
     
     new Setting(contentEl)
       .addButton(btn => btn
         .setButtonText('Stamp')
         .setCta()
-        .onClick(async () => {                    
-          const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-          const { isValid, problemMessage } = isValidDatetime(this.unixTimestamp);
-          if (view && isValid) {
-            try {
-              switch (this.stampKind) {
-                case 'block-height': {
-                  const blockHeight = await new Stamp(this.unixTimestamp).blockHeight(this.blockHeightFormat, this.blockExplorer);
-                  insertAtCursor(blockHeight, view.editor);
-                  break;
-                }
-                case 'moscow-time': {
-                  const moscowTime: string = await new Stamp(this.unixTimestamp).moscowTime(this.moscowTimeFormat);
-                  insertAtCursor(moscowTime, view.editor);
-                  break;
-                }
-                case 'moscow-time_at_block-height': {
-                  const moscowTimeAtBlockHeight: string = await new Stamp(this.unixTimestamp).moscowTimeAtBlockHeight(this.moscowTimeFormat, this.blockHeightFormat, this.blockExplorer);
-                  insertAtCursor(moscowTimeAtBlockHeight, view.editor);
-                  break;
-                }
-                default: {
-                  new Notice('No valid stamp selected!');
-                  break;
-                }
-              }
-            } catch (error) {
+        .onClick(() => {
+          void this.insertCustomStamp()
+            .catch(error => {
               this.showErrorNotice('Could not insert custom stamp', error);
-            }
-          } else {
-            if (problemMessage) {
-              new Notice(`Couldn't add stamp: Invalid date`);
-            } else {
-              new Notice(`Couldn't add stamp: Not in editor view`);
-            }
-          }
-          
-          this.close();
+            })
+            .finally(() => {
+              this.close();
+            });
         })
       );
   }
@@ -173,6 +143,44 @@ export class CustomStampModal extends Modal {
   onClose() {
     const { contentEl } = this;
     contentEl.empty();
+  }
+
+  private async insertCustomStamp () {
+    const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+    const { isValid, problemMessage } = isValidDatetime(this.unixTimestamp);
+    if (view && isValid) {
+      try {
+        switch (this.stampKind) {
+          case 'block-height': {
+            const blockHeight = await new Stamp(this.unixTimestamp).blockHeight(this.blockHeightFormat, this.blockExplorer);
+            insertAtCursor(blockHeight, view.editor);
+            break;
+          }
+          case 'moscow-time': {
+            const moscowTime: string = await new Stamp(this.unixTimestamp).moscowTime(this.moscowTimeFormat);
+            insertAtCursor(moscowTime, view.editor);
+            break;
+          }
+          case 'moscow-time_at_block-height': {
+            const moscowTimeAtBlockHeight: string = await new Stamp(this.unixTimestamp).moscowTimeAtBlockHeight(this.moscowTimeFormat, this.blockHeightFormat, this.blockExplorer);
+            insertAtCursor(moscowTimeAtBlockHeight, view.editor);
+            break;
+          }
+          default: {
+            new Notice('No valid stamp selected!');
+            break;
+          }
+        }
+      } catch (error) {
+        this.showErrorNotice('Could not insert custom stamp', error);
+      }
+    } else {
+      if (problemMessage) {
+        new Notice(`Couldn't add stamp: Invalid date`);
+      } else {
+        new Notice(`Couldn't add stamp: Not in editor view`);
+      }
+    }
   }
 
   private showErrorNotice (action: string, error: unknown) {

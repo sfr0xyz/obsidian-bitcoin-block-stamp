@@ -26,9 +26,9 @@ export class BbsSettingTab extends PluginSettingTab {
         .addOption('blockstream-info', 'Blockstream.info')
         .addOption('timechaincalendar-com', 'TimechainCalendar.com')
         .setValue(this.plugin.settings.blockExplorer)
-        .onChange(async value => {
+        .onChange(value => {
           this.plugin.settings.blockExplorer = value as BlockExplorer;
-          await this.plugin.saveSettings()
+          this.saveSettingsSafely();
         })
       )
     
@@ -45,9 +45,9 @@ export class BbsSettingTab extends PluginSettingTab {
         .addOption('apostrophe', 'Apostrophe (840\'000)')
         .addOption('underscore', 'Underscore (840_000)')
         .setValue(this.plugin.settings.formats.blockHeight)
-        .onChange(async value => {
+        .onChange(value => {
           this.plugin.settings.formats.blockHeight = value as BlockHeightFormat;
-          await this.plugin.saveSettings();
+          this.saveSettingsSafely();
         })
       )
     
@@ -59,9 +59,9 @@ export class BbsSettingTab extends PluginSettingTab {
         .addOption('colon', 'Colon (15:66)')
         .addOption('period', 'Period (15.66)')
         .setValue(this.plugin.settings.formats.moscowTime)
-        .onChange(async value => {
+        .onChange(value => {
           this.plugin.settings.formats.moscowTime = value as MoscowTimeFormat;
-          await this.plugin.saveSettings();
+          this.saveSettingsSafely();
         })
       )
     
@@ -75,9 +75,9 @@ export class BbsSettingTab extends PluginSettingTab {
       .addText(text => text
         //.setPlaceholder('{{blockheight}}')
         .setValue(this.plugin.settings.placeholders.blockHeight)
-        .onChange(async blockHeightPlaceholder => {
+        .onChange(blockHeightPlaceholder => {
           this.plugin.settings.placeholders.blockHeight = blockHeightPlaceholder;
-          await this.plugin.saveSettings();
+          this.saveSettingsSafely();
         })
       )
     new Setting(containerEl)
@@ -86,9 +86,9 @@ export class BbsSettingTab extends PluginSettingTab {
       .addText(text => text
         //.setPlaceholder('{{moscowtime}}')
         .setValue(this.plugin.settings.placeholders.moscowTime)
-        .onChange(async moscowTimePlaceholder => {
+        .onChange(moscowTimePlaceholder => {
           this.plugin.settings.placeholders.moscowTime = moscowTimePlaceholder;
-          await this.plugin.saveSettings();
+          this.saveSettingsSafely();
         })
       )
     new Setting(containerEl)
@@ -97,10 +97,16 @@ export class BbsSettingTab extends PluginSettingTab {
       .addText(text => text
         //.setPlaceholder('{{moscowtime@blockheight}}')
         .setValue(this.plugin.settings.placeholders.moscowTimeAtBlockHeight)
-        .onChange(async moscowTimeAtBlockHeightPlaceholder => {
+        .onChange(moscowTimeAtBlockHeightPlaceholder => {
           this.plugin.settings.placeholders.moscowTimeAtBlockHeight = moscowTimeAtBlockHeightPlaceholder;
-          await this.plugin.saveSettings();
+          this.saveSettingsSafely();
         })
       )
+  }
+
+  private saveSettingsSafely () {
+    void this.plugin.saveSettings().catch(error => {
+      console.error(error);
+    });
   }
 }

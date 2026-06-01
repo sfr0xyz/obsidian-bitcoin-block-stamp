@@ -1,6 +1,8 @@
 import esbuild from "esbuild";
+import { builtinModules } from "node:module";
 import process from "process";
-import builtins from "builtin-modules";
+
+const builtins = builtinModules.flatMap((module) => [module, `node:${module}`]);
 
 const banner =
 `/*

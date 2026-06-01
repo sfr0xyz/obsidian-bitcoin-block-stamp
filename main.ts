@@ -37,72 +37,62 @@ export default class BbsPlugin extends Plugin {
     this.addCommand({
       id: 'insert-current-block-height',
       name: 'Insert current block height',
-      editorCallback: async (editor: Editor) => {
-        try {
+      editorCallback: (editor: Editor) => {
+        this.runAsync('Could not insert current block height', async () => {
           const blockHeight: string = await new Stamp().blockHeight(this.settings.formats.blockHeight, this.settings.blockExplorer);
           insertAtCursor(blockHeight, editor);
-        } catch (error) {
-          this.showErrorNotice('Could not insert current block height', error);
-        }
+        });
       }
     });
 
     this.addCommand({
       id: 'insert-current-moscow-time',
       name: 'Insert current Moscow time',
-      editorCallback: async (editor: Editor) => {
-        try {
+      editorCallback: (editor: Editor) => {
+        this.runAsync('Could not insert current Moscow time', async () => {
           const moscowTime: string = await new Stamp().moscowTime(this.settings.formats.moscowTime);
           insertAtCursor(moscowTime, editor);
-        } catch (error) {
-          this.showErrorNotice('Could not insert current Moscow time', error);
-        }	
+        });
       }
     });
 
     this.addCommand({
       id: 'insert-current-moscow-time-at-block-height',
       name: 'Insert current Moscow time @ block height',
-      editorCallback: async (editor: Editor) => {
-        try{
+      editorCallback: (editor: Editor) => {
+        this.runAsync('Could not insert current Moscow time @ block height', async () => {
           const moscowTimeAtBlockHeight: string = await new Stamp().moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer);
           insertAtCursor(moscowTimeAtBlockHeight, editor);
-        } catch (error) {
-          this.showErrorNotice('Could not insert current Moscow time @ block height', error);
-        }
+        });
       }
     });
     
     this.addCommand({
       id: 'replace-stamp-placeholders',
       name: 'Replace stamp placeholders',
-      callback: async () => {
-        try {
-          const activeFile = this.app.workspace.getActiveFile();
-          if (!activeFile) {
-            new Notice('🛑 No active file to replace stamp placeholders in.');
-            return;
-          }
-
-          await this.replaceStampPlaceholders(activeFile);
-        } catch (error) {
-          this.showErrorNotice('Could not replace stamp placeholders', error);
+      callback: () => {
+        const activeFile = this.app.workspace.getActiveFile();
+        if (!(activeFile instanceof TFile)) {
+          new Notice('🛑 No active file to replace stamp placeholders in.');
+          return;
         }
+
+        this.runAsync('Could not replace stamp placeholders', async () => {
+          await this.replaceStampPlaceholders(activeFile);
+        });
       }
     });
 
     this.app.workspace.onLayoutReady(() => {
       this.registerEvent(
-        this.app.vault.on('create', async (file: TAbstractFile) => {
+        this.app.vault.on('create', (file: TAbstractFile) => {
           if (!(file instanceof TFile)) {
             return;
           }
 
-          try {
+          this.runAsync('Could not replace stamp placeholders in the new file', async () => {
             await this.replaceStampPlaceholders(file);
-          } catch (error) {
-            this.showErrorNotice('Could not replace stamp placeholders in the new file', error);
-          }
+          });
         })
       );
     })
@@ -131,6 +121,12 @@ export default class BbsPlugin extends Plugin {
     }
 
     await replacePlaceholders(this.app.vault, file, replacements);
+  }
+
+  private runAsync (action: string, task: () => Promise<void>) {
+    void task().catch(error => {
+      this.showErrorNotice(action, error);
+    });
   }
 
   private showErrorNotice (action: string, error: unknown) {
