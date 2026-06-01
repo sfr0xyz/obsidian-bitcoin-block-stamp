@@ -1,10 +1,14 @@
 import { App, Modal, Setting, MarkdownView, Notice } from 'obsidian';
 import { moment } from '@utils/moment';
-import BbsPlugin from 'main';
+import type BbsPlugin from 'main';
 import { BlockExplorer, BlockHeightFormat, MoscowTimeFormat, StampKind, UnixTimestamp } from '@utils/types';
-import { Stamp } from '@src/stamp';
-import { insertAtCursor, isValidDatetime, updateDatetimeOutput, currentUnixtime } from '@utils/functions';
+import { StampGenerator, CustomStampRequest } from '@src/stamp-generator';
+import { insertAtCursor } from '@utils/editor';
+import { isValidDatetime, currentUnixtime } from '@utils/datetime';
+import { updateDatetimeOutput } from '@utils/datetime-output';
 import { DATETIME_INPUT_FORMAT, DATETIME_OUTPUT_FORMAT } from '@utils/constants';
+import { BLOCK_EXPLORER_OPTIONS, BLOCK_HEIGHT_FORMAT_OPTIONS, MOSCOW_TIME_FORMAT_OPTIONS, STAMP_KIND_OPTIONS } from '@src/stamp-options';
+import { showErrorNotice } from '@src/notice';
 
 export class CustomStampModal extends Modal {
   plugin: BbsPlugin
@@ -13,10 +17,12 @@ export class CustomStampModal extends Modal {
   blockHeightFormat!: BlockHeightFormat
   moscowTimeFormat!: MoscowTimeFormat
   blockExplorer!: BlockExplorer
+  private stamps: StampGenerator
   
-  constructor(app: App, plugin: BbsPlugin) {
+  constructor(app: App, plugin: BbsPlugin, stamps: StampGenerator) {
     super(app);
     this.plugin = plugin;
+    this.stamps = stamps;
   }
   
   onOpen() {
@@ -53,59 +59,51 @@ export class CustomStampModal extends Modal {
     const setSettings = () => {
       new Setting(settingsEl)
         .setName('Stamp kind')
-        .addDropdown(dropdown => dropdown
-          .addOption('block-height', 'Block height')
-          .addOption('moscow-time', 'Moscow time')
-          .addOption('moscow-time_at_block-height', 'Moscow time @ block height')
-          .setValue(this.stampKind)
-          .onChange(value => {
-            this.stampKind = value as StampKind;
-            settingsEl.empty();
-            setSettings();
-          })
-        );
+        .addDropdown(dropdown => {
+          STAMP_KIND_OPTIONS.forEach(option => dropdown.addOption(option.value, option.label));
+          dropdown
+            .setValue(this.stampKind)
+            .onChange(value => {
+              this.stampKind = value as StampKind;
+              settingsEl.empty();
+              setSettings();
+            });
+        });
 
       if (this.stampKind.includes('moscow-time')) {
         new Setting(settingsEl)
           .setName('Moscow time format')
-          .addDropdown(dropdown => dropdown
-            .addOption('plain', 'Plain (1566)')
-            .addOption('colon', 'Colon (15:66)')
-            .addOption('period', 'Period (15.66)')
-            .setValue(this.moscowTimeFormat)
-            .onChange(value => {
-              this.moscowTimeFormat = value as MoscowTimeFormat;
-            })
-          );
+          .addDropdown(dropdown => {
+            MOSCOW_TIME_FORMAT_OPTIONS.forEach(option => dropdown.addOption(option.value, option.label));
+            dropdown
+              .setValue(this.moscowTimeFormat)
+              .onChange(value => {
+                this.moscowTimeFormat = value as MoscowTimeFormat;
+              });
+          });
       }
       if (this.stampKind.includes('block-height')) {
         new Setting(settingsEl)
           .setName('Block height format')
-          .addDropdown(dropdown => dropdown
-            .addOption('plain', 'Plain (840000)')
-            .addOption('comma', 'Comma (840,000)')
-            .addOption('period', 'Period (840.000)')
-            .addOption('space', 'Space (840 000)')
-            .addOption('apostrophe', 'Apostrophe (840\'000)')
-            .addOption('underscore', 'Underscore (840_000)')
-            .setValue(this.blockHeightFormat)
-            .onChange(value => {
-              this.blockHeightFormat = value as BlockHeightFormat;
-            })
-          );
+          .addDropdown(dropdown => {
+            BLOCK_HEIGHT_FORMAT_OPTIONS.forEach(option => dropdown.addOption(option.value, option.label));
+            dropdown
+              .setValue(this.blockHeightFormat)
+              .onChange(value => {
+                this.blockHeightFormat = value as BlockHeightFormat;
+              });
+          });
         
         new Setting(settingsEl)
           .setName('Block explorer')
-          .addDropdown(dropdown => dropdown
-            .addOption('', 'None')
-            .addOption('mempool-space', 'Mempool.space')
-            .addOption('blockstream-info', 'Blockstream.info')
-            .addOption('timechaincalendar-com', 'TimechainCalendar.com')
-            .setValue(this.blockExplorer)
-            .onChange(value => {
-              this.blockExplorer = value as BlockExplorer;
-            })
-          );
+          .addDropdown(dropdown => {
+            BLOCK_EXPLORER_OPTIONS.forEach(option => dropdown.addOption(option.value, option.label));
+            dropdown
+              .setValue(this.blockExplorer)
+              .onChange(value => {
+                this.blockExplorer = value as BlockExplorer;
+              });
+          });
       }
     };
 
@@ -131,7 +129,7 @@ export class CustomStampModal extends Modal {
         .onClick(() => {
           void this.insertCustomStamp()
             .catch(error => {
-              this.showErrorNotice('Could not insert custom stamp', error);
+              showErrorNotice('Could not insert custom stamp', error);
             })
             .finally(() => {
               this.close();
@@ -149,31 +147,15 @@ export class CustomStampModal extends Modal {
     const view = this.app.workspace.getActiveViewOfType(MarkdownView);
     const { isValid, problemMessage } = isValidDatetime(this.unixTimestamp);
     if (view && isValid) {
-      try {
-        switch (this.stampKind) {
-          case 'block-height': {
-            const blockHeight = await new Stamp(this.unixTimestamp).blockHeight(this.blockHeightFormat, this.blockExplorer);
-            insertAtCursor(blockHeight, view.editor);
-            break;
-          }
-          case 'moscow-time': {
-            const moscowTime: string = await new Stamp(this.unixTimestamp).moscowTime(this.moscowTimeFormat);
-            insertAtCursor(moscowTime, view.editor);
-            break;
-          }
-          case 'moscow-time_at_block-height': {
-            const moscowTimeAtBlockHeight: string = await new Stamp(this.unixTimestamp).moscowTimeAtBlockHeight(this.moscowTimeFormat, this.blockHeightFormat, this.blockExplorer);
-            insertAtCursor(moscowTimeAtBlockHeight, view.editor);
-            break;
-          }
-          default: {
-            new Notice('No valid stamp selected!');
-            break;
-          }
-        }
-      } catch (error) {
-        this.showErrorNotice('Could not insert custom stamp', error);
-      }
+      const request: CustomStampRequest = {
+        unixTimestamp: this.unixTimestamp,
+        stampKind: this.stampKind,
+        blockHeightFormat: this.blockHeightFormat,
+        moscowTimeFormat: this.moscowTimeFormat,
+        blockExplorer: this.blockExplorer
+      };
+      const stampText = await this.stamps.customStamp(request);
+      insertAtCursor(stampText, view.editor);
     } else {
       if (problemMessage) {
         new Notice(`Couldn't add stamp: Invalid date`);
@@ -183,12 +165,4 @@ export class CustomStampModal extends Modal {
     }
   }
 
-  private showErrorNotice (action: string, error: unknown) {
-    console.error(error);
-    new Notice(`🛑 ${action}: ${this.getErrorMessage(error)}`);
-  }
-
-  private getErrorMessage (error: unknown): string {
-    return error instanceof Error ? error.message : String(error);
-  }
 }

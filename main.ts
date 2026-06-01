@@ -2,12 +2,15 @@ import { Editor, Plugin, TAbstractFile, TFile, Notice } from 'obsidian';
 import { BbsSettingTab } from '@src/settings';
 import { BbsPluginSettings, normalizeSettings } from '@src/settings-data';
 import { CustomStampModal } from '@modals/custom-stamp';
-import { Stamp } from '@src/stamp';
-import { insertAtCursor, replacePlaceholders } from '@utils/functions';
-import { Replacements } from '@utils/types';
+import { MempoolSpaceApi } from '@apis/rest';
+import { StampGenerator } from '@src/stamp-generator';
+import { insertAtCursor } from '@utils/editor';
+import { replacePlaceholders } from '@utils/vault-placeholders';
+import { showErrorNotice } from '@src/notice';
 
 export default class BbsPlugin extends Plugin {
   settings!: BbsPluginSettings;
+  private stamps = new StampGenerator(new MempoolSpaceApi());
 
   async onload() {
     await this.loadSettings();
@@ -16,9 +19,9 @@ export default class BbsPlugin extends Plugin {
 
     this.addRibbonIcon('bitcoin', 'Insert Bitcoin block stamp', () => {
       try {
-        new CustomStampModal(this.app, this).open();
+        this.openCustomStampModal();
       } catch (error) {
-        this.showErrorNotice('Could not open the custom stamp modal', error);
+        showErrorNotice('Could not open the custom stamp modal', error);
       }
     });
 
@@ -27,9 +30,9 @@ export default class BbsPlugin extends Plugin {
       name: 'Insert custom block stamp',
       editorCallback: () => {
         try {
-          new CustomStampModal(this.app, this).open();
+          this.openCustomStampModal();
         } catch (error) {
-          this.showErrorNotice('Could not open the custom stamp modal', error);
+          showErrorNotice('Could not open the custom stamp modal', error);
         }
       }
     });
@@ -39,7 +42,7 @@ export default class BbsPlugin extends Plugin {
       name: 'Insert current block height',
       editorCallback: (editor: Editor) => {
         this.runAsync('Could not insert current block height', async () => {
-          const blockHeight: string = await new Stamp().blockHeight(this.settings.formats.blockHeight, this.settings.blockExplorer);
+          const blockHeight: string = await this.stamps.currentBlockHeight(this.settings);
           insertAtCursor(blockHeight, editor);
         });
       }
@@ -50,7 +53,7 @@ export default class BbsPlugin extends Plugin {
       name: 'Insert current Moscow time',
       editorCallback: (editor: Editor) => {
         this.runAsync('Could not insert current Moscow time', async () => {
-          const moscowTime: string = await new Stamp().moscowTime(this.settings.formats.moscowTime);
+          const moscowTime: string = await this.stamps.currentMoscowTime(this.settings);
           insertAtCursor(moscowTime, editor);
         });
       }
@@ -61,7 +64,7 @@ export default class BbsPlugin extends Plugin {
       name: 'Insert current Moscow time @ block height',
       editorCallback: (editor: Editor) => {
         this.runAsync('Could not insert current Moscow time @ block height', async () => {
-          const moscowTimeAtBlockHeight: string = await new Stamp().moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer);
+          const moscowTimeAtBlockHeight: string = await this.stamps.currentMoscowTimeAtBlockHeight(this.settings);
           insertAtCursor(moscowTimeAtBlockHeight, editor);
         });
       }
@@ -112,29 +115,19 @@ export default class BbsPlugin extends Plugin {
   }
 
   async replaceStampPlaceholders (file: TFile) {
-    let replacements: Replacements = {};
-    const stamp = new Stamp();
-    replacements = {
-      [this.settings.placeholders.blockHeight]: await stamp.blockHeight(this.settings.formats.blockHeight, this.settings.blockExplorer),
-      [this.settings.placeholders.moscowTime]: await stamp.moscowTime(this.settings.formats.moscowTime),
-      [this.settings.placeholders.moscowTimeAtBlockHeight]: await stamp.moscowTimeAtBlockHeight(this.settings.formats.moscowTime, this.settings.formats.blockHeight, this.settings.blockExplorer)
-    }
+    const replacements = await this.stamps.placeholderReplacements(this.settings);
 
     await replacePlaceholders(this.app.vault, file, replacements);
   }
 
+  private openCustomStampModal () {
+    new CustomStampModal(this.app, this, this.stamps).open();
+  }
+
   private runAsync (action: string, task: () => Promise<void>) {
     void task().catch(error => {
-      this.showErrorNotice(action, error);
+      showErrorNotice(action, error);
     });
   }
 
-  private showErrorNotice (action: string, error: unknown) {
-    console.error(error);
-    new Notice(`🛑 ${action}: ${this.getErrorMessage(error)}`);
-  }
-
-  private getErrorMessage (error: unknown): string {
-    return error instanceof Error ? error.message : String(error);
-  }
 }

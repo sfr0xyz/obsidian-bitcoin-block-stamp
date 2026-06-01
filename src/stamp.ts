@@ -1,19 +1,18 @@
-import { MempoolSpaceApi } from '@apis/rest';
 import { BLOCK_EXPLORERS } from '@utils/constants';
 import { formatBlockHeight, formatMoscowTime } from '@utils/format';
-import { UnixTimestamp, Api, BlockId, MoscowTimeFormat, BlockHeightFormat, BlockExplorer } from '@utils/types';
+import { UnixTimestamp, StampSource, BlockId, MoscowTimeFormat, BlockHeightFormat, BlockExplorer } from '@utils/types';
 
 export class Stamp {
-  private source: Api
+  private source: StampSource
   private unixTimestamp?: UnixTimestamp
 
-  constructor (unixTimestamp?: UnixTimestamp) {
-    this.source = new MempoolSpaceApi();
-    if (unixTimestamp) { this.unixTimestamp = unixTimestamp; }
+  constructor (unixTimestamp: UnixTimestamp | undefined, source: StampSource) {
+    this.source = source;
+    this.unixTimestamp = unixTimestamp;
   }
 
   async blockHeight(format: BlockHeightFormat='plain', blockExplorer: BlockExplorer=''): Promise<string> {
-    const block: BlockId = await this.getBlock();
+    const block: BlockId = await this.source.getBlockId(this.unixTimestamp);
 
     let sBlockHeight: string = formatBlockHeight(block.height, format);
 
@@ -38,14 +37,9 @@ export class Stamp {
     return moscowTime + ' @ ' + blockHeight;
   }
 
-  private async getBlock (): Promise<BlockId> {
-    const block: BlockId = await this.source.getBlockId(this?.unixTimestamp);
-    return block;
-  }
-
   private async getMoscowTime (): Promise<number> {
     const satsPerBtc = 100000000;
-    const btcPrice: number = await this.source.getPrice(this?.unixTimestamp);
+    const btcPrice: number = await this.source.getPrice(this.unixTimestamp);
     const satsPerUsd: number = Math.round(satsPerBtc / btcPrice);
     return satsPerUsd;
   }
