@@ -6,9 +6,5 @@
 	"description": "Stamp your notes with the current Bitcoin block.",
 	"author": "sefiro",
 	"authorUrl": "https://github.com/sfr0xyz",
-	"fundingUrl": {
-		"Alby (Bitcoin LN)": "https://getalby.com/p/sefiro",
-		"Buy Me a Coffee": "https://buymeacoffee.com/sefiro"
-	},
 	"isDesktopOnly": false
 }
